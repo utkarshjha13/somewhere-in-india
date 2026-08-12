@@ -240,3 +240,31 @@ dialog p:last-child{line-height:1.7;opacity:.75}
     bottom:48px !important;
   }
 }
+
+/* V13.4 — final desktop player placement + tricolour scene line */
+@media (min-width:901px){
+  /* Move ONLY the player further right; keep its V13.3 dimensions. */
+  .radio{
+    left:57% !important;
+    width:44vw !important;
+    max-width:680px !important;
+    min-width:0 !important;
+    height:168px !important;
+    min-height:168px !important;
+    max-height:168px !important;
+    bottom:48px !important;
+  }
+
+  /* The scene line stays in its original left position and becomes tricolour. */
+  .orange-line{
+    background:linear-gradient(
+      90deg,
+      var(--orange) 0%,
+      var(--orange) 33%,
+      #f2f2ea 33%,
+      #f2f2ea 66%,
+      var(--green) 66%,
+      var(--green) 100%
+    ) !important;
+  }
+}
