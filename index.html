@@ -1,62 +1,74 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Somewhere in India — A little visual story</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#071015">
+  <meta name="description" content="Somewhere in India — a little visual story.">
+  <title>Somewhere in India</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main class="story" id="story">
-  <img class="photo" id="photo" src="./india-01.jpg" alt="Somewhere in India">
-  <div class="shade"></div>
-  <div class="grain"></div>
+  <main class="story">
+    <div class="hero">
+      <img class="hero-image" src="assets/india-night.jpg" alt="Rainy Indian city street at blue hour with an elevated train and city lights">
 
-  <header class="top">
-    <div class="clock" id="clock"></div>
-    <div class="status"><i></i><span>SOMEWHERE, INDIA</span></div>
-    <button class="sound" id="sound" aria-label="Toggle sound">♪</button>
-  </header>
+      <div class="hero-shade"></div>
+      <div class="grain"></div>
 
-  <section class="hero">
-    <p class="eyebrow" id="eyebrow">A LITTLE NIGHT STORY</p>
-    <h1><span>Somewhere</span><br><span>in India.</span></h1>
-    <p class="tagline" id="tagline">Not a place. Just a moment.</p>
-  </section>
+      <header class="topbar">
+        <time id="clock">--:-- --</time>
+        <div class="location-pill"><span></span> SOMEWHERE, INDIA</div>
+        <button class="info-button" id="infoBtn" aria-label="About this story">?</button>
+      </header>
 
-  <div class="chai">
-    <div class="steam">♨</div>
-    <div><small id="placeLabel">INDIA / NIGHT</small><strong id="chaiTitle">चाय</strong></div>
-  </div>
+      <section class="hero-copy">
+        <p class="eyebrow">A LITTLE NIGHT STORY</p>
+        <h1><span>Somewhere</span><span>in India.</span></h1>
+        <p class="subtitle">Not a place. Just a moment.</p>
+      </section>
 
-  <div class="counter"><span id="count">01</span><b>/</b><span id="total">06</span></div>
-
-  <section class="player" aria-label="Music player">
-    <div class="playerTop"><span>SOMEWHERE RADIO</span><span id="genre">CITY LIGHTS</span></div>
-    <div class="playerMain">
-      <div class="disc"><span>♪</span></div>
-      <div class="track">
-        <small id="state">VISUAL STORY</small>
-        <strong id="trackName">City Lights</strong>
-        <div class="progress"><i id="progress"></i></div>
-        <div class="time"><span id="current">00:00</span><span id="duration">00:00</span></div>
+      <div class="scene-label">
+        <span class="line"></span>
+        <div class="label-top">INDIA / NIGHT</div>
+        <div class="label-title">Monsoon City</div>
       </div>
-      <div class="controls">
-        <button id="prev" aria-label="Previous">‹</button>
-        <button class="play" id="play" aria-label="Play">▶</button>
-        <button id="next" aria-label="Next">›</button>
-      </div>
+
+      <div class="story-count">01 / 01</div>
+
+      <section class="radio" aria-label="Somewhere Radio">
+        <div class="radio-head">
+          <span>SOMEWHERE RADIO</span>
+          <span>RAIN / LATE NIGHT</span>
+        </div>
+        <div class="player">
+          <div class="disc">♪</div>
+          <div class="track">
+            <span class="status">READY</span>
+            <strong id="trackName">Last Local</strong>
+            <div class="progress"><i id="progress"></i></div>
+            <div class="times"><span id="current">00:00</span><span id="duration">--:--</span></div>
+          </div>
+          <button class="play" id="playBtn" aria-label="Play">▶</button>
+        </div>
+        <div class="radio-foot"><span>01 / 01</span><span id="audioHint">ADD YOUR OWN AUDIO IN /audio</span></div>
+        <audio id="audio" preload="metadata"></audio>
+      </section>
+
+      <button class="sound" id="soundBtn" aria-label="Audio settings">♪</button>
     </div>
-    <div class="playerFoot"><span id="trackNo">01 / 06</span><span id="audioNote">ADD YOUR LICENSED TRACKS</span></div>
-  </section>
+  </main>
 
-  <div class="dots" id="dots"></div>
-  <div class="hint">SWIPE / USE ARROWS</div>
-  <audio id="audio" preload="metadata"></audio>
-</main>
-<script src="./script.js"></script>
+  <dialog id="infoDialog">
+    <button class="dialog-close" id="closeBtn" aria-label="Close">×</button>
+    <p class="eyebrow">SOMEWHERE IN INDIA</p>
+    <h2>A little visual story.</h2>
+    <p>One rainy city. One passing train. One quiet moment. Put on a song and leave this tab playing while you work.</p>
+  </dialog>
+
+  <script src="script.js"></script>
 </body>
 </html>
