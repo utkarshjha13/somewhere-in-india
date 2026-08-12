@@ -1,64 +1,67 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#101417">
-  <meta name="description" content="Somewhere in India — a little visual night story.">
-  <title>Somewhere in India.</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Somewhere in India — A little visual story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="story" aria-label="Somewhere in India visual story">
-    <div class="slides" id="slides"></div>
-    <div class="shade"></div>
-    <div class="grain"></div>
+<main class="story" id="story">
+  <div class="photo" id="photo"></div>
+  <div class="shade"></div>
+  <div class="grain"></div>
 
-    <header class="topbar">
-      <span id="clock">01:39 PM</span>
-      <div class="live"><i></i><span>SOMEWHERE, INDIA</span></div>
-    </header>
+  <header class="top">
+    <div class="clock" id="clock">12:43 pm</div>
+    <div class="status"><i></i><span>SOMEWHERE, INDIA</span></div>
+    <button class="sound" id="sound" aria-label="Toggle sound">♪</button>
+  </header>
 
-    <section class="hero">
-      <div class="eyebrow">A LITTLE VISUAL STORY</div>
-      <h1>Somewhere<br><em>in India.</em></h1>
-      <p id="caption">Not a place. Just a moment.</p>
-    </section>
+  <section class="hero">
+    <p class="eyebrow" id="eyebrow">A LITTLE NIGHT STORY</p>
+    <h1><span id="line1">Somewhere</span><br><span id="line2">in India.</span></h1>
+    <p class="tagline" id="tagline">Not a place. Just a moment.</p>
+  </section>
 
-    <div class="location-card">
-      <small id="placeType">INDIA / NIGHT</small>
-      <strong id="place">Somewhere in India</strong>
+  <div class="chai">
+    <div class="steam">♨</div>
+    <div><small>ROAD SIDE</small><strong id="chaiTitle">चाय</strong></div>
+  </div>
+
+  <div class="counter">
+    <span id="count">01</span><b>/</b><span>06</span>
+  </div>
+
+  <section class="player" aria-label="Music player">
+    <div class="playerTop">
+      <span>SOMEWHERE RADIO</span>
+      <span id="genre">90s / LATE NIGHT</span>
     </div>
-
-    <section class="radio" aria-label="Music player">
-      <div class="radio-head">
-        <span>SOMEWHERE RADIO</span>
-        <span><b id="trackNo">01</b> / <b id="trackTotal">05</b></span>
+    <div class="playerMain">
+      <div class="disc"><span>♪</span></div>
+      <div class="track">
+        <small id="state">READY</small>
+        <strong id="trackName">Late Night FM</strong>
+        <div class="progress"><i id="progress"></i></div>
+        <div class="time"><span id="current">00:00</span><span id="duration">00:00</span></div>
       </div>
-      <div class="radio-main">
-        <div class="disc"><span>♫</span></div>
-        <div class="track">
-          <small id="trackState">READY</small>
-          <strong id="trackName">Add audio files</strong>
-          <div class="progress"><i id="progress"></i></div>
-          <div class="times"><span id="current">00:00</span><span id="duration">00:00</span></div>
-        </div>
-        <button class="prev" id="prev" aria-label="Previous track">‹</button>
-        <button class="play" id="play" aria-label="Play or pause">▶</button>
-        <button class="next" id="next" aria-label="Next track">›</button>
+      <div class="controls">
+        <button id="prev">‹</button>
+        <button class="play" id="play">▶</button>
+        <button id="next">›</button>
       </div>
-      <div class="radio-foot"><span>90s / LATE NIGHT</span><span id="audioHint">Add your licensed tracks in /audio</span></div>
-    </section>
+    </div>
+    <div class="playerFoot"><span id="trackNo">01 / 06</span><span>ADD YOUR LICENSED TRACKS</span></div>
+  </section>
 
-    <div class="dots" id="dots"></div>
-    <div class="counter"><span id="slideNo">01</span> / <span id="slideTotal">06</span></div>
-    <div class="hint">SWIPE / DRAG • AUTO STORY</div>
-  </main>
-
+  <div class="dots" id="dots"></div>
+  <div class="hint">SWIPE / USE ARROWS</div>
   <audio id="audio" preload="metadata"></audio>
-  <script src="script.js"></script>
+</main>
+<script src="script.js"></script>
 </body>
 </html>

@@ -1,73 +1,35 @@
-const photos=[
- {src:"images/india-01.jpg",type:"INDIA / NIGHT",place:"City Lights",caption:"When the whole city decides to stay awake."},
- {src:"images/india-02.jpg",type:"INDIA / AFTER DARK",place:"A City Under Clouds",caption:"Somewhere between the clouds and the last light."},
- {src:"images/india-03.jpg",type:"INDIA / HERITAGE",place:"Agra",caption:"A monument, a reflection, a thousand little stories."},
- {src:"images/india-04.jpg",type:"INDIA / EVENING",place:"Kolkata",caption:"Old streets look different when the sky turns pink."},
- {src:"images/india-05.jpg",type:"INDIA / BACKWATERS",place:"Kerala",caption:"Slow water. Warm air. Nowhere to rush."},
- {src:"images/india-06.jpg",type:"INDIA / COUNTRYSIDE",place:"Somewhere Rural",caption:"The road gets quieter. The sky gets wider."}
+const slides=[
+ {img:"images/india-01.jpg",ey:"A LITTLE NIGHT STORY",tag:"Lights rise, somewhere beyond the rooftops.",chai:"चाय",genre:"CITY LIGHTS",track:"Raat Ka Safar"},
+ {img:"images/india-02.jpg",ey:"AFTER DARK",tag:"The city keeps a thousand little stories awake.",chai:"शहर",genre:"MIDNIGHT INDIA",track:"Last Local"},
+ {img:"images/india-03.jpg",ey:"A PLACE TO PAUSE",tag:"Some views don't need a reason.",chai:"सफ़र",genre:"SLOW EVENING",track:"A Quiet Evening"},
+ {img:"images/india-04.jpg",ey:"SOUTHERN AIR",tag:"Water moves slowly. Time does too.",chai:"चाय",genre:"BACKWATER FM",track:"Nadi Ke Paar"},
+ {img:"images/india-05.jpg",ey:"THE QUIET SIDE",tag:"Morning arrives softly over the fields.",chai:"सुबह",genre:"FIRST LIGHT",track:"Subah Somewhere"},
+ {img:"images/india-06.jpg",ey:"ONE MORE CUP",tag:"Stay a little longer. The night isn't over.",chai:"आख़िरी चाय",genre:"LATE NIGHT",track:"Last Local"}
 ];
-
-const slides=document.getElementById("slides"),dots=document.getElementById("dots");
-const placeType=document.getElementById("placeType"),place=document.getElementById("place"),caption=document.getElementById("caption");
-const slideNo=document.getElementById("slideNo"),slideTotal=document.getElementById("slideTotal");
-let index=0,timer=null,startX=0;
-
-photos.forEach((p,i)=>{
- const s=document.createElement("div");s.className="slide"+(i===0?" active":"");
- const img=document.createElement("img");img.src=p.src;img.alt=p.place;img.loading=i<2?"eager":"lazy";s.appendChild(img);slides.appendChild(s);
- const d=document.createElement("button");d.setAttribute("aria-label",`Go to slide ${i+1}`);d.onclick=()=>go(i,true);dots.appendChild(d);
-});
-slideTotal.textContent=String(photos.length).padStart(2,"0");
+let idx=0, playing=false;
+const $=id=>document.getElementById(id);
+const photo=$("photo"), eyebrow=$("eyebrow"), tagline=$("tagline"), chai=$("chaiTitle"), genre=$("genre"), track=$("trackName"), count=$("count"), trackNo=$("trackNo"), dots=$("dots"), audio=$("audio"), play=$("play"), progress=$("progress"), current=$("current"), duration=$("duration"), state=$("state");
 
 function render(){
- [...slides.children].forEach((s,i)=>s.classList.toggle("active",i===index));
- [...dots.children].forEach((d,i)=>d.classList.toggle("active",i===index));
- const p=photos[index];
- placeType.textContent=p.type;place.textContent=p.place;caption.textContent=p.caption;
- slideNo.textContent=String(index+1).padStart(2,"0");
+ const s=slides[idx];
+ photo.style.opacity=.18;
+ setTimeout(()=>{photo.style.backgroundImage=`url("${s.img}")`; photo.style.opacity=1},180);
+ eyebrow.textContent=s.ey; tagline.textContent=s.tag; chai.textContent=s.chai; genre.textContent=s.genre; track.textContent=s.track;
+ count.textContent=String(idx+1).padStart(2,"0"); trackNo.textContent=`${String(idx+1).padStart(2,"0")} / 06`;
+ dots.querySelectorAll("button").forEach((b,i)=>b.classList.toggle("active",i===idx));
+ audio.src=`audio/track-${String(idx+1).padStart(2,"0")}.mp3`;
+ audio.load(); state.textContent="READY"; progress.style.width="0%"; current.textContent="00:00"; duration.textContent="00:00";
 }
-function go(n,manual=false){
- index=(n+photos.length)%photos.length;render();
- if(manual) restart();
-}
-function restart(){clearInterval(timer);timer=setInterval(()=>go(index+1),9000)}
-document.getElementById("prev").onclick=()=>go(index-1,true);
-document.getElementById("next").onclick=()=>go(index+1,true);
-restart();
-
-document.addEventListener("keydown",e=>{if(e.key==="ArrowRight")go(index+1,true);if(e.key==="ArrowLeft")go(index-1,true);if(e.key===" ")togglePlay()});
-document.addEventListener("touchstart",e=>startX=e.touches[0].clientX,{passive:true});
-document.addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-startX;if(Math.abs(dx)>45)go(index+(dx<0?1:-1),true)},{passive:true});
-
-function clock(){
- const d=new Date();let h=d.getHours(),m=String(d.getMinutes()).padStart(2,"0"),ap=h>=12?"PM":"AM";h=h%12||12;
- document.getElementById("clock").textContent=`${String(h).padStart(2,"0")}:${m} ${ap}`;
-}
-clock();setInterval(clock,30000);
-
-const audio=document.getElementById("audio"), play=document.getElementById("play"), nameEl=document.getElementById("trackName");
-const state=document.getElementById("trackState"), progress=document.getElementById("progress"), current=document.getElementById("current"),duration=document.getElementById("duration");
-const tracks=[
- {name:"Last Local",file:"audio/track-01.mp3"},
- {name:"Chai After Dark",file:"audio/track-02.mp3"},
- {name:"Rain on the Highway",file:"audio/track-03.mp3"},
- {name:"Old City Lights",file:"audio/track-04.mp3"},
- {name:"Late Night FM",file:"audio/track-05.mp3"}
-];
-let ti=0;
-function fmt(s){if(!Number.isFinite(s))return"00:00";return `${String(Math.floor(s/60)).padStart(2,"0")}:${String(Math.floor(s%60)).padStart(2,"0")}`}
-function loadTrack(i,autoplay=false){
- ti=(i+tracks.length)%tracks.length;const t=tracks[ti];audio.src=t.file;nameEl.textContent=t.name;document.getElementById("trackNo").textContent=String(ti+1).padStart(2,"0");state.textContent="READY";progress.style.width="0%";current.textContent="00:00";duration.textContent="00:00";
- if(autoplay)audio.play().catch(()=>{});
-}
-function togglePlay(){
- if(!audio.src)loadTrack(ti);
- if(audio.paused){audio.play().then(()=>{play.textContent="Ⅱ";state.textContent="PLAYING"}).catch(()=>{state.textContent="TAP AGAIN"})}
- else{audio.pause();play.textContent="▶";state.textContent="PAUSED"}
-}
-play.onclick=togglePlay;
-document.getElementById("prev").addEventListener("dblclick",()=>loadTrack(ti-1,true));
-document.getElementById("next").addEventListener("dblclick",()=>loadTrack(ti+1,true));
-audio.addEventListener("timeupdate",()=>{current.textContent=fmt(audio.currentTime);if(audio.duration){duration.textContent=fmt(audio.duration);progress.style.width=(audio.currentTime/audio.duration*100)+"%"}})
-audio.addEventListener("ended",()=>loadTrack(ti+1,true));
-loadTrack(0,false);
+slides.forEach((_,i)=>{let b=document.createElement("button");b.setAttribute("aria-label",`Photo ${i+1}`);b.onclick=()=>{idx=i;render()};dots.appendChild(b)});
+function next(){idx=(idx+1)%slides.length;render()}
+function prev(){idx=(idx-1+slides.length)%slides.length;render()}
+$("next").onclick=next;$("prev").onclick=prev;
+play.onclick=async()=>{if(!audio.src)return;if(audio.paused){try{await audio.play();playing=true;play.textContent="Ⅱ";state.textContent="PLAYING"}catch(e){state.textContent="ADD AUDIO"}}else{audio.pause();playing=false;play.textContent="▶";state.textContent="PAUSED"}};
+audio.addEventListener("timeupdate",()=>{if(audio.duration){progress.style.width=(audio.currentTime/audio.duration*100)+"%";current.textContent=fmt(audio.currentTime);duration.textContent=fmt(audio.duration)}});
+audio.addEventListener("ended",next);
+function fmt(s){if(!isFinite(s))return"00:00";return String(Math.floor(s/60)).padStart(2,"0")+":"+String(Math.floor(s%60)).padStart(2,"0")}
+$("sound").onclick=()=>{audio.muted=!audio.muted;$("sound").textContent=audio.muted?"×":"♪"};
+setInterval(()=>{let d=new Date();$("clock").textContent=d.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",hour12:true}).toLowerCase()},1000);
+let sx=0; story.addEventListener("touchstart",e=>sx=e.touches[0].clientX,{passive:true}); story.addEventListener("touchend",e=>{let dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>55){dx<0?next():prev()}},{passive:true});
+window.addEventListener("keydown",e=>{if(e.key==="ArrowRight")next();if(e.key==="ArrowLeft")prev();if(e.key===" "){e.preventDefault();play.click()}});
+render();
