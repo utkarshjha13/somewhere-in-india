@@ -3,77 +3,73 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Somewhere in India — A Little Night Story</title>
-  <meta name="theme-color" content="#090b0d">
+  <meta name="theme-color" content="#0b1014">
+  <title>Somewhere in India — V6</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="scene">
-    <div class="photo"></div>
-    <div class="cinema"></div>
+  <main class="story" id="story">
+    <div class="photo photo-a"></div>
+    <div class="photo photo-b"></div>
     <div class="grain"></div>
+    <div class="vignette"></div>
+    <div class="warm-glow"></div>
 
     <header class="topbar">
       <span id="clock">11:47 PM</span>
-      <div class="location"><i></i> SOMEWHERE, INDIA</div>
-      <button class="help" id="help">?</button>
+      <div class="location-pill"><i></i><span>SOMEWHERE, INDIA</span></div>
+      <button class="help" aria-label="About this experience">?</button>
     </header>
 
     <section class="hero">
       <div class="eyebrow">A LITTLE NIGHT STORY</div>
       <h1>Somewhere<br><span>in India.</span></h1>
-      <p>Not a place. Just a moment.</p>
+      <p id="caption">Not a place. Just a moment.</p>
     </section>
 
-    <!-- A lightweight animated metro foreground: intentionally a real-looking train silhouette with illuminated windows -->
-    <div class="metro-wrap" aria-hidden="true">
-      <div class="metro">
-        <div class="metro-head"></div>
-        <div class="windows">
-          <b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b>
-        </div>
-        <div class="metro-lights"></div>
-      </div>
+    <div class="scene-meta">
+      <span id="sceneName">DELHI · AFTER RAIN</span>
+      <span id="sceneCount">01 / 06</span>
     </div>
 
-    <button class="chai-card" id="chai">
+    <button class="chai-card" id="chaiCard" aria-label="Open chai detail">
       <span class="steam">♨</span>
-      <span><small>ROAD SIDE</small>चाय</span>
+      <span><small>ROAD SIDE</small><strong>चाय</strong></span>
     </button>
 
-    <section class="radio" aria-label="Somewhere Radio">
-      <div class="radio-top">
+    <section class="radio" aria-label="Music player">
+      <div class="radio-head">
         <span>SOMEWHERE RADIO</span>
-        <span>90s / LATE NIGHT</span>
+        <span id="genre">90s / LATE NIGHT</span>
       </div>
       <div class="radio-main">
-        <div class="album">♪</div>
+        <div class="disc"><span>♪</span></div>
         <div class="track">
-          <small id="state">READY</small>
-          <strong id="title">Late Night FM</strong>
-          <div class="progress"><i id="bar"></i></div>
-          <small><span id="current">00:00</span> / <span id="duration">00:00</span></small>
+          <small id="trackState">READY</small>
+          <strong id="trackTitle">Late Night FM</strong>
+          <div class="progress"><i id="progress"></i></div>
+          <div class="time"><span id="elapsed">00:00</span><span id="duration">00:00</span></div>
         </div>
-        <button id="prev" class="skip">‹</button>
-        <button id="play" class="play">▶</button>
-        <button id="next" class="skip">›</button>
+        <button class="skip" id="prev" aria-label="Previous track">‹</button>
+        <button class="play" id="play" aria-label="Play">▶</button>
+        <button class="skip" id="next" aria-label="Next track">›</button>
       </div>
-      <div class="radio-bottom">
-        <span id="count">01 / 05</span>
-        <span id="source">Music source will be added later</span>
+      <div class="radio-foot">
+        <span id="trackNumber">01 / 05</span>
+        <span id="soundState">SOUND OFF · ADD YOUR LICENSED TRACKS</span>
       </div>
     </section>
 
     <footer>
-      <span id="footerClock">11:47 PM · SOMEWHERE IN INDIA</span>
-      <span id="sound">SOUND OFF</span>
+      <span id="footerTime">11:47 PM · SOMEWHERE IN INDIA</span>
+      <span>V6 · PHOTO STORY</span>
     </footer>
   </main>
 
-  <div class="toast" id="toast"></div>
+  <audio id="audio" preload="metadata"></audio>
   <script src="script.js"></script>
 </body>
 </html>
