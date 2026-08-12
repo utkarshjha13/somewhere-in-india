@@ -1,72 +1,102 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>11:47 PM — Somewhere in India</title>
-  <meta name="description" content="A tiny interactive night somewhere in India.">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>11:47 PM — Somewhere in India</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="grain"></div>
+<div class="noise"></div>
+<div class="vignette"></div>
 
-  <main class="scene" aria-label="Interactive night scene">
-    <header class="topbar">
-      <div class="clock" id="clock">11:47 PM</div>
-      <div class="location">SOMEWHERE IN INDIA <span>•</span> 12.8°N–31.0°N</div>
-    </header>
+<main>
+  <section class="landing" id="landing">
+    <div class="tiny">A DIGITAL NIGHT STORY</div>
+    <div class="time">11:47</div>
+    <div class="pm">PM</div>
+    <h1>Somewhere<br><i>in India.</i></h1>
+    <p class="sub">The city is asleep. Not everyone is.</p>
+    <button id="enter">ENTER THE NIGHT <span>↘</span></button>
+    <div class="bottom-note">TURN YOUR SOUND ON · BEST EXPERIENCED AT NIGHT</div>
+  </section>
 
-    <section class="intro">
-      <p class="eyebrow">A little night story</p>
-      <h1>Somewhere<br><em>in India.</em></h1>
-      <p class="hint">Tap the lights. Something is always awake.</p>
-    </section>
-
-    <section class="city" id="city">
+  <section class="night" id="night">
+    <div class="sky">
       <div class="moon"></div>
-      <div class="stars" aria-hidden="true"></div>
+      <div class="stars"></div>
+      <div class="cloud c1"></div><div class="cloud c2"></div>
+    </div>
 
-      <div class="distant-haze"></div>
+    <div class="far-city">
+      <div class="tower t1"></div><div class="tower t2"></div><div class="tower t3"></div>
+      <div class="tower t4"></div><div class="tower t5"></div>
+    </div>
 
-      <div class="building b1"><span class="window w1"></span><span class="window w2"></span></div>
-      <div class="building b2"><span class="window w1"></span><span class="window w2"></span><span class="window w3"></span></div>
-      <div class="building b3"><span class="window w1"></span></div>
+    <div class="power-line"></div>
 
-      <button class="hotspot balcony" data-story="A student is still awake. Tomorrow's exam is circled on the calendar.">▢</button>
-      <button class="hotspot lamp" data-story="One streetlight. One empty road. The moths have claimed it for the night.">●</button>
-      <button class="hotspot chai" data-story="Last chai before closing. The kettle says otherwise.">☕</button>
-      <button class="hotspot bicycle" data-story="The bicycle belongs to someone who promised to be home by eleven.">↝</button>
-      <button class="hotspot train" data-story="A late train crosses somewhere beyond the buildings. Nobody here knows its destination.">▰</button>
+    <div class="building house-left">
+      <span class="win a"></span><span class="win b"></span><span class="win c"></span>
+    </div>
+    <div class="building house-mid">
+      <span class="win a"></span><span class="win b"></span><span class="win c"></span><span class="win d"></span>
+    </div>
+    <div class="building house-right">
+      <span class="win a"></span><span class="win b"></span>
+    </div>
 
-      <div class="road">
-        <div class="road-line"></div>
+    <button class="point p-window" data-title="THE WINDOW" data-copy="Someone is studying. The same page has been open for twenty minutes.">+</button>
+    <button class="point p-lamp" data-title="THE STREETLIGHT" data-copy="A yellow pool of light. A moth circles it like it has nowhere else to be.">+</button>
+    <button class="point p-chai" data-title="THE LAST CHAI" data-copy="The shutter should be down by now. The kettle disagrees.">+</button>
+    <button class="point p-train" data-title="THE LATE TRAIN" data-copy="A train passes somewhere beyond the road. For a few seconds, the whole night moves.">+</button>
+
+    <div class="road">
+      <div class="lane"></div>
+      <div class="lamp-post"><div class="bulb"></div></div>
+      <div class="chai-shop">
+        <div class="awning">CHAI</div>
+        <div class="shop-window"></div>
+        <div class="steam s1"></div><div class="steam s2"></div>
       </div>
-
-      <div class="chai-stall">
-        <div class="stall-roof"></div>
-        <div class="stall-body">CHAI</div>
-        <div class="stall-light"></div>
+      <div class="cycle">
+        <div class="wheel one"></div><div class="wheel two"></div>
+        <div class="frame"></div>
       </div>
+      <div class="train"><span></span><span></span><span></span></div>
+    </div>
 
-      <div class="cycle">🚲</div>
-      <div class="train-track"><span></span><span></span></div>
-      <div class="moving-train">▰▰▰</div>
-    </section>
+    <aside class="radio">
+      <div class="radio-top">
+        <span>SOMEWHERE RADIO</span>
+        <button id="radioClose">×</button>
+      </div>
+      <div class="radio-screen">
+        <div class="equalizer"><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
+        <div class="radio-status" id="status">READY</div>
+        <div class="track-name" id="trackName">LATE NIGHT FM</div>
+      </div>
+      <div class="radio-controls">
+        <button id="prev">‹</button>
+        <button class="play" id="play">▶</button>
+        <button id="next">›</button>
+      </div>
+      <div class="radio-meta"><span>90s / LATE NIGHT</span><span id="trackNo">01 / 05</span></div>
+      <div class="radio-note">Use music you have permission to play. Playlist slots are ready for your licensed/owned tracks.</div>
+    </aside>
 
-    <section class="story-card" id="storyCard" aria-live="polite">
-      <button class="close" id="closeStory" aria-label="Close">×</button>
-      <p class="story-label">YOU FOUND SOMETHING</p>
-      <p class="story-text" id="storyText">Tap something in the night.</p>
-    </section>
+    <div class="story" id="story">
+      <button id="storyClose">×</button>
+      <div class="story-label" id="storyTitle">THE NIGHT</div>
+      <p id="storyCopy">Tap a glowing point. Somewhere, something is still happening.</p>
+    </div>
 
-    <footer>
-      <span>11:47 PM</span>
-      <span>•</span>
-      <span>Somewhere, someone is still awake.</span>
-      <button id="soundBtn">SOUND OFF</button>
-    </footer>
-  </main>
+    <div class="night-footer">
+      <span>11:47 PM · SOMEWHERE IN INDIA</span>
+      <button id="sound">AMBIENCE OFF</button>
+    </div>
+  </section>
+</main>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

@@ -1,58 +1,23 @@
-const clock = document.getElementById("clock");
-const storyCard = document.getElementById("storyCard");
-const storyText = document.getElementById("storyText");
-const closeStory = document.getElementById("closeStory");
-const hotspots = document.querySelectorAll(".hotspot");
-const soundBtn = document.getElementById("soundBtn");
+const enter=document.getElementById("enter"),landing=document.getElementById("landing"),night=document.getElementById("night");
+enter.addEventListener("click",()=>{landing.classList.add("leave");setTimeout(()=>night.classList.add("show"),120);});
 
-function updateClock() {
-  const now = new Date();
-  const h = now.getHours();
-  const m = String(now.getMinutes()).padStart(2, "0");
-  const display = h === 0 ? 12 : (h > 12 ? h - 12 : h);
-  clock.textContent = `${display}:${m} ${h >= 12 ? "PM" : "AM"}`;
-}
-updateClock();
-setInterval(updateClock, 30000);
+const story=document.getElementById("story"), storyTitle=document.getElementById("storyTitle"), storyCopy=document.getElementById("storyCopy");
+document.querySelectorAll(".point").forEach(p=>p.addEventListener("click",()=>{storyTitle.textContent=p.dataset.title;storyCopy.textContent=p.dataset.copy;story.classList.add("open");}));
+document.getElementById("storyClose").onclick=()=>story.classList.remove("open");
 
-hotspots.forEach((spot) => {
-  spot.addEventListener("click", () => {
-    storyText.textContent = spot.dataset.story;
-    storyCard.classList.add("open");
-  });
-});
+const tracks=["LATE NIGHT FM","A RAINY ROAD","TWO STATIONS AWAY","THE LAST CHAI","HOME, SOMEWHERE"];
+let index=0, playing=false;
+const name=document.getElementById("trackName"), no=document.getElementById("trackNo"), status=document.getElementById("status"), play=document.getElementById("play");
+function render(){name.textContent=tracks[index];no.textContent=`${String(index+1).padStart(2,"0")} / ${String(tracks.length).padStart(2,"0")}`;}
+function setPlay(v){playing=v;play.textContent=playing?"Ⅱ":"▶";status.textContent=playing?"PLAYING":"READY";document.querySelector(".equalizer").style.opacity=playing?"1":".45";}
+play.onclick=()=>setPlay(!playing);
+document.getElementById("next").onclick=()=>{index=(index+1)%tracks.length;render();setPlay(true)};
+document.getElementById("prev").onclick=()=>{index=(index-1+tracks.length)%tracks.length;render()};
+document.getElementById("radioClose").onclick=()=>document.querySelector(".radio").style.display="none";
+render();
 
-closeStory.addEventListener("click", () => storyCard.classList.remove("open"));
-
-let audioContext = null;
-let ambience = null;
-
-function startSound() {
-  audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  const gain = audioContext.createGain();
-  gain.gain.value = 0.025;
-  gain.connect(audioContext.destination);
-
-  const osc = audioContext.createOscillator();
-  osc.type = "sine";
-  osc.frequency.value = 92;
-  osc.connect(gain);
-  osc.start();
-
-  ambience = { osc, gain };
-  soundBtn.textContent = "SOUND ON";
-}
-
-function stopSound() {
-  if (!ambience) return;
-  ambience.osc.stop();
-  ambience = null;
-  audioContext.close();
-  audioContext = null;
-  soundBtn.textContent = "SOUND OFF";
-}
-
-soundBtn.addEventListener("click", () => {
-  if (!ambience) startSound();
-  else stopSound();
-});
+let ctx,gain,osc;
+document.getElementById("sound").onclick=()=>{
+ if(ctx){osc.stop();ctx.close();ctx=null;document.getElementById("sound").textContent="AMBIENCE OFF";return}
+ ctx=new (window.AudioContext||window.webkitAudioContext)();gain=ctx.createGain();gain.gain.value=.018;gain.connect(ctx.destination);osc=ctx.createOscillator();osc.type="sine";osc.frequency.value=86;osc.connect(gain);osc.start();document.getElementById("sound").textContent="AMBIENCE ON";
+};
