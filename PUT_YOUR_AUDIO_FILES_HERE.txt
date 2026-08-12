@@ -1,0 +1,7 @@
+Put your own legally obtained audio files here using these exact filenames:
+1. Dheere Dheere Se Meri Zindagi Mein Aana (Aashiqui) - (Raag.Fm).mp3
+2. Ek Dil Hai (Ek Rishtaa) - (Raag.Fm).mp3
+3. Is Tarah Aashiqui Ka - Kumar Sanu (Imtihan) - (Raag.Fm).mp3
+
+The website player is already wired to these filenames.
+The MP3 files themselves are intentionally not included in this package.
