@@ -74,5 +74,5 @@ loadTrack(0,false);
 
 const modal=document.getElementById("modal");
 document.getElementById("infoBtn").onclick=()=>modal.hidden=false;
-document.getElementById("closeInfo").onclick=()=>modal.hidden=true;
+document.getElementById("closeInfo").addEventListener("click",()=>{modal.hidden=true;modal.style.display="none"});
 modal.addEventListener("click",e=>{if(e.target===modal)modal.hidden=true});
