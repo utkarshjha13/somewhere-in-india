@@ -1,132 +1,460 @@
 *{box-sizing:border-box}
 :root{
-  --cream:#f7f0df;
-  --orange:#f59a45;
-  --green:#20c97b;
+  --cream:#f5edda;
+  --orange:#f29a45;
+  --green:#20c978;
   --ink:#071015;
-  --mono:"DM Mono",monospace;
-  --sans:"Poppins",sans-serif;
+  --panel:rgba(5,12,15,.90);
+  --line:rgba(245,237,218,.20);
 }
-html,body{margin:0;min-height:100%;background:#071015;color:var(--cream)}
-body{font-family:var(--sans);overflow-x:hidden}
-.page{
-  min-height:100svh;
+html,body{margin:0;min-height:100%;background:#050b0e;color:var(--cream)}
+body{font-family:"DM Sans",sans-serif;overflow-x:hidden}
+button,input{font:inherit}
+
+.hero{
   position:relative;
-  isolation:isolate;
+  min-height:100svh;
+  height:100svh;
   overflow:hidden;
+  isolation:isolate;
+}
+.hero-image{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center center;
+  z-index:-3;
+}
+.hero-shade{
+  position:absolute;
+  inset:0;
+  z-index:-2;
   background:
-    linear-gradient(180deg,rgba(4,17,30,.28),rgba(4,10,15,.55)),
-    url("assets/background.jpg") center/cover no-repeat;
+    linear-gradient(180deg,rgba(2,10,16,.20) 0%,rgba(2,10,16,.05) 34%,rgba(2,10,16,.28) 68%,rgba(2,10,16,.68) 100%),
+    linear-gradient(90deg,rgba(2,10,16,.30),transparent 55%,rgba(2,10,16,.15));
 }
-.page:after{
-  content:"";position:absolute;inset:0;z-index:-1;
-  background:linear-gradient(180deg,rgba(3,12,22,.06) 0%,rgba(3,10,15,.12) 55%,rgba(3,9,13,.58) 100%);
-  pointer-events:none;
+.grain{
+  position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.10;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
 }
+
 .topbar{
-  position:absolute;top:22px;left:4%;right:4%;height:48px;
+  position:absolute;top:28px;left:4%;right:4%;
   display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
   z-index:5;
 }
-.clock{font:500 14px var(--mono);letter-spacing:1.3px}
-.location{
-  justify-self:center;padding:12px 22px;border:1px solid rgba(255,255,255,.16);
-  border-radius:999px;background:rgba(7,18,28,.56);backdrop-filter:blur(12px);
-  font:500 14px var(--mono);letter-spacing:2px;white-space:nowrap;
+#clock,.eyebrow,.scene-kicker,.radio,.location-pill{
+  font-family:"Space Mono",monospace;
+  letter-spacing:.18em;
 }
-.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 12px rgba(32,201,123,.55);margin-right:12px}
-.credit{justify-self:end;font-size:14px;color:rgba(255,255,255,.9)}
-.credit em{font-family:Georgia,serif;font-weight:700;font-size:17px}
+#clock{font-size:12px;opacity:.88}
+.location-pill{
+  justify-self:center;
+  display:flex;align-items:center;gap:10px;
+  padding:12px 20px;border:1px solid rgba(245,237,218,.18);
+  border-radius:999px;background:rgba(6,15,19,.48);
+  backdrop-filter:blur(12px);font-size:11px;white-space:nowrap;
+}
+.status-dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 12px rgba(32,201,120,.65);display:inline-block}
+.status-dot.small{width:7px;height:7px}
+.creator{justify-self:end;font-size:12px;opacity:.92}
+.creator em{font-family:Georgia,serif;font-size:17px;font-weight:600}
 
-.hero{
-  min-height:100svh;
-  padding:31vh 0 240px 6.2%;
-  position:relative;
+.icon-btn,.music-btn{
+  position:absolute;border:1px solid rgba(245,237,218,.18);
+  background:rgba(5,13,17,.45);color:var(--cream);
+  border-radius:50%;width:52px;height:52px;cursor:pointer;
+  backdrop-filter:blur(10px);font-size:20px;
 }
-.eyebrow{
-  color:#e5b17b;font:500 14px var(--mono);letter-spacing:2.5px;
-  margin-bottom:28px;
+.icon-btn{right:0;top:58px}
+.music-btn{right:0;top:122px}
+
+.hero-copy{
+  position:absolute;left:7%;top:30%;z-index:4;max-width:700px;
 }
-h1{
-  margin:0;color:var(--cream);font:700 clamp(54px,7vw,92px)/1.05 var(--sans);
-  letter-spacing:-2.8px;max-width:760px;
+.eyebrow{font-size:12px;color:#e9b887;margin:0 0 24px}
+.hero-copy h1{
+  margin:0;font-size:clamp(60px,7.3vw,112px);
+  line-height:.88;letter-spacing:-.065em;font-weight:700;
 }
-.subtitle{font:400 16px var(--mono);letter-spacing:.5px;margin:24px 0 0;color:rgba(247,240,223,.82)}
-.story{margin-top:88px;width:430px;max-width:46vw}
-.tricolor-line{height:4px;width:100%;display:flex;margin-bottom:20px;border-radius:5px;overflow:hidden}
-.tricolor-line i,.tricolor-line b,.tricolor-line em{display:block;flex:1}
-.tricolor-line i{background:var(--orange)}
-.tricolor-line b{background:#f7f0df}
-.tricolor-line em{background:var(--green)}
-.section-tag{font:500 13px var(--mono);letter-spacing:1.8px;margin-bottom:16px}
-.story-title{font:600 20px var(--sans)}
+.hero-copy h1 span{display:block}
+.subtitle{
+  margin:25px 0 0;font-family:"Space Mono",monospace;
+  font-size:14px;opacity:.82;
+}
+
+.scene-label{
+  position:absolute;left:7%;bottom:22%;z-index:4;
+  min-width:310px;
+}
+.orange-line{height:3px;width:310px;background:var(--orange);margin-bottom:18px}
+.scene-kicker{font-size:12px;letter-spacing:.16em}
+.scene-name{margin-top:9px;font-size:19px;font-weight:600}
 
 .radio{
-  position:absolute;z-index:6;
-  left:6%;right:6%;bottom:5.5vh;
-  min-height:180px;padding:28px 32px 22px;
-  border:1px solid rgba(255,255,255,.16);
+  position:absolute;
+  z-index:6;
+  left:50%;
+  bottom:24px;
+  transform:translateX(-50%);
+  width:min(44vw,680px);
+  min-width:500px;
+  height:174px;
+  padding:20px 22px 14px;
+  border:1px solid rgba(245,237,218,.18);
   border-radius:26px;
-  background:
-    radial-gradient(circle at 72% 35%,rgba(245,154,69,.16),transparent 30%),
-    linear-gradient(115deg,rgba(5,14,18,.88),rgba(10,16,18,.72));
-  box-shadow:0 20px 70px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.06);
+  background:var(--panel);
+  box-shadow:0 18px 55px rgba(0,0,0,.30),inset 0 1px 0 rgba(245,237,218,.05);
   backdrop-filter:blur(18px);
 }
-.radio:before,.radio:after{content:"";position:absolute;top:-2px;height:2px;width:50%}
-.radio:before{left:0;background:linear-gradient(90deg,var(--orange),#f7f0df)}
-.radio:after{right:0;background:linear-gradient(90deg,#f7f0df,var(--green))}
-.radio-top,.radio-bottom{
+.radio:before,.radio:after{
+  content:"";position:absolute;left:0;right:0;height:2px;
+}
+.radio:before{top:0;background:linear-gradient(90deg,var(--orange),var(--orange) 46%,#f2f2ea 50%,#f2f2ea 54%,var(--green))}
+.radio:after{bottom:0;background:linear-gradient(90deg,var(--orange),#f2f2ea 50%,var(--green))}
+.radio-top,.radio-foot{
   display:flex;justify-content:space-between;align-items:center;
-  font:500 12px var(--mono);letter-spacing:2px;color:rgba(247,240,223,.58)
+  font-size:10px;color:rgba(245,237,218,.62);
 }
-.radio-main{display:grid;grid-template-columns:72px 1fr 72px;gap:26px;align-items:center;margin-top:18px}
-.art{
-  width:64px;height:64px;border-radius:50%;display:grid;place-items:center;
-  background:linear-gradient(180deg,rgba(245,154,69,.18),rgba(32,201,123,.10));
-  border:1px solid rgba(245,154,69,.42);font-size:22px;color:var(--orange)
+.radio-main{display:flex;align-items:center;gap:17px;margin-top:14px}
+.disc{
+  flex:0 0 52px;width:52px;height:52px;border-radius:50%;
+  border:1px solid rgba(242,154,69,.38);
+  background:#102024;color:var(--orange);cursor:pointer;font-size:18px;
+  box-shadow:inset 0 0 0 7px rgba(32,201,120,.04);
 }
-.status{font:500 12px var(--mono);letter-spacing:2px;color:var(--green)}
-.status .dot{width:9px;height:9px;margin-right:9px}
-.track-title{font-size:24px;font-weight:600;margin:5px 0 10px}
-.progress-row{display:grid;grid-template-columns:48px 1fr 48px;gap:10px;align-items:center;font:400 11px var(--mono);color:rgba(247,240,223,.55)}
-input[type=range]{width:100%;accent-color:var(--orange)}
+.track{min-width:0;flex:1}
+.track-status{font-size:10px;color:var(--green);margin-bottom:6px}
+.track strong{display:block;font-family:"DM Sans",sans-serif;font-size:18px;letter-spacing:0}
+.progress-row{display:grid;grid-template-columns:42px 1fr 42px;gap:9px;align-items:center;margin-top:9px;color:rgba(245,237,218,.48);font-size:9px;letter-spacing:0}
+#progress{width:100%;accent-color:var(--orange);height:3px}
 .play{
-  width:68px;height:68px;border:0;border-radius:50%;background:var(--cream);color:#12171a;
-  font-size:20px;cursor:pointer;box-shadow:0 0 25px rgba(247,240,223,.15)
+  flex:0 0 58px;width:58px;height:58px;border:0;border-radius:50%;
+  background:var(--cream);color:#0a1215;cursor:pointer;font-size:16px;
 }
-.radio-bottom{margin-top:12px}
-.radio-bottom span:last-child{color:var(--green)}
+.radio-foot{margin-top:10px;font-size:9px}
+.radio-foot span:last-child{color:var(--green)}
 
-@media (min-width:900px){
-  .radio{left:auto;right:6%;width:min(900px,55vw);bottom:5vh}
+dialog{
+  width:min(560px,88vw);border:1px solid rgba(245,237,218,.18);
+  border-radius:22px;background:#0a1215;color:var(--cream);padding:32px;
 }
-@media (max-width:899px){
-  .topbar{top:18px;left:5.5%;right:5.5%;grid-template-columns:auto 1fr auto}
-  .clock{font-size:12px}.credit{font-size:11px}.credit em{font-size:14px}
-  .location{justify-self:center;padding:11px 16px;font-size:12px;letter-spacing:1.6px}
-  .hero{padding:39vh 6% 235px;min-height:100svh}
-  .eyebrow{font-size:12px;margin-bottom:22px}
-  h1{font-size:clamp(48px,12vw,66px);letter-spacing:-2px}
-  .subtitle{font-size:14px;margin-top:20px}
-  .story{width:350px;max-width:100%;margin-top:90px}
-  .radio{left:6%;right:6%;bottom:4vh;min-height:190px;padding:24px 22px 19px;border-radius:24px}
-  .radio-main{grid-template-columns:58px 1fr 58px;gap:16px;margin-top:16px}
-  .art{width:56px;height:56px}
-  .track-title{font-size:19px}
-  .play{width:58px;height:58px;font-size:17px}
-  .radio-top,.radio-bottom{font-size:10px;letter-spacing:1.5px}
+dialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(8px)}
+dialog h2{font-size:32px;margin:5px 0 12px}
+dialog p:last-child{line-height:1.7;opacity:.75}
+.dialog-close{float:right;border:0;background:none;color:var(--cream);font-size:28px;cursor:pointer}
+
+@media (max-width:900px){
+  .topbar{top:20px;left:4%;right:4%}
+  .creator{font-size:9px}.creator em{font-size:13px}
+  .icon-btn,.music-btn{display:none}
+  .hero-copy{left:6%;top:31%;max-width:85%}
+  .hero-copy h1{font-size:clamp(55px,12vw,88px)}
+  .scene-label{left:6%;bottom:22%;min-width:260px}
+  .orange-line{width:260px}
+  .radio{
+    width:56vw;min-width:0;height:170px;bottom:24px;
+    padding:18px 18px 13px;border-radius:24px;
+  }
 }
-@media (max-width:480px){
-  .credit{display:none}
-  .topbar{grid-template-columns:auto 1fr}
-  .location{justify-self:end}
-  .hero{padding-top:38vh}
-  .story{margin-top:72px}
-  .radio{left:5%;right:5%;bottom:3.2vh;padding:22px 18px 17px}
-  .radio-main{grid-template-columns:48px 1fr 54px;gap:12px}
-  .art{width:48px;height:48px}
-  .track-title{font-size:17px}
-  .status{font-size:10px}
-  .play{width:54px;height:54px}
+
+@media (max-width:600px){
+  .hero-image{object-position:center center}
+  .topbar{grid-template-columns:auto 1fr auto}
+  .location-pill{justify-self:center;padding:10px 14px;font-size:9px}
+  #clock{font-size:9px}
+  .creator{display:none}
+  .hero-copy{top:29%;left:6%}
+  .hero-copy h1{font-size:clamp(52px,15vw,72px);line-height:.90}
+  .hero-copy .eyebrow{margin-bottom:18px;font-size:9px}
+  .subtitle{font-size:10px;margin-top:18px}
+  .scene-label{left:6%;bottom:25%;min-width:210px}
+  .orange-line{width:190px;height:3px;margin-bottom:12px}
+  .scene-kicker{font-size:9px}.scene-name{font-size:15px;margin-top:6px}
+  .radio{
+    width:56%;height:168px;bottom:18px;
+    padding:16px 14px 11px;border-radius:22px;
+  }
+  .radio-top{font-size:8px}
+  .radio-main{gap:10px;margin-top:12px}
+  .disc{flex-basis:42px;width:42px;height:42px;font-size:15px}
+  .track-status{font-size:8px;margin-bottom:4px}
+  .track strong{font-size:14px}
+  .progress-row{grid-template-columns:34px 1fr 34px;gap:5px;margin-top:7px;font-size:8px}
+  .play{flex-basis:48px;width:48px;height:48px;font-size:13px}
+  .radio-foot{font-size:7px;margin-top:8px}
+  .radio-foot span:last-child{max-width:110px;text-align:right}
+}
+
+@media (max-width:420px){
+  .radio{width:56%;height:168px}
+  .hero-copy h1{font-size:52px}
+  .scene-label{bottom:23%}
+}
+
+
+/* V13.2 — DESKTOP REFERENCE LOCK
+   Desktop only: keep the player medium, centered and lower,
+   matching the supplied red-box reference. */
+@media (min-width:901px){
+  .radio{
+    width:44vw !important;
+    max-width:680px !important;
+    min-width:0 !important;
+    height:168px !important;
+    min-height:168px !important;
+    max-height:168px !important;
+    left:50% !important;
+    bottom:48px !important;
+    transform:translateX(-50%) !important;
+    overflow:hidden !important;
+  }
+}
+
+
+/* V13.3 — desktop composition cleanup */
+@media (min-width:901px){
+  /* Keep the title completely clean: the scene label moves below it. */
+  .scene-label{
+    left:7% !important;
+    bottom:15% !important;
+    z-index:4 !important;
+  }
+
+  /* The orange scene line must not cross the title. */
+  .orange-line{
+    margin-bottom:18px !important;
+  }
+
+  /* Player keeps the V13.2 size, but shifts slightly to the right. */
+  .radio{
+    left:54% !important;
+    width:44vw !important;
+    max-width:680px !important;
+    min-width:0 !important;
+    height:168px !important;
+    min-height:168px !important;
+    max-height:168px !important;
+    bottom:48px !important;
+  }
+}
+
+/* V13.4 — final desktop player placement + tricolour scene line */
+@media (min-width:901px){
+  /* Move ONLY the player further right; keep its V13.3 dimensions. */
+  .radio{
+    left:57% !important;
+    width:44vw !important;
+    max-width:680px !important;
+    min-width:0 !important;
+    height:168px !important;
+    min-height:168px !important;
+    max-height:168px !important;
+    bottom:48px !important;
+  }
+
+  /* The scene line stays in its original left position and becomes tricolour. */
+  .orange-line{
+    background:linear-gradient(
+      90deg,
+      var(--orange) 0%,
+      var(--orange) 33%,
+      #f2f2ea 33%,
+      #f2f2ea 66%,
+      var(--green) 66%,
+      var(--green) 100%
+    ) !important;
+  }
+}
+
+
+/* V13.5 — finishing polish
+   Keep the established composition/size. Only improve spacing,
+   contrast, glass depth and the tricolour accent. */
+
+/* A calmer foreground vignette so the typography stays readable
+   without making the photograph look overly dark. */
+.hero-shade{
+  background:
+    linear-gradient(180deg,
+      rgba(2,10,16,.18) 0%,
+      rgba(2,10,16,.03) 36%,
+      rgba(2,10,16,.20) 66%,
+      rgba(2,10,16,.64) 100%),
+    linear-gradient(90deg,
+      rgba(2,10,16,.34) 0%,
+      rgba(2,10,16,.08) 48%,
+      rgba(2,10,16,.18) 100%);
+}
+
+/* Scene accent: unmistakable Indian tricolour, but deliberately thin. */
+.orange-line{
+  background:linear-gradient(
+    90deg,
+    var(--orange) 0%,
+    var(--orange) 33%,
+    rgba(245,237,218,.92) 33%,
+    rgba(245,237,218,.92) 66%,
+    var(--green) 66%,
+    var(--green) 100%
+  ) !important;
+  box-shadow:0 0 12px rgba(242,154,69,.10);
+}
+
+/* Give the scene metadata a little breathing room from the player. */
+.scene-label{
+  text-shadow:0 2px 12px rgba(0,0,0,.30);
+}
+.scene-name{letter-spacing:-.01em}
+
+/* Premium glass treatment for the existing player — no size change. */
+.radio{
+  background:
+    linear-gradient(135deg,
+      rgba(8,18,22,.94),
+      rgba(4,11,14,.88) 58%,
+      rgba(6,16,18,.92));
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.38),
+    inset 0 1px 0 rgba(245,237,218,.07),
+    inset 0 -1px 0 rgba(32,201,120,.035);
+  border-color:rgba(245,237,218,.22);
+}
+
+.radio-main{gap:18px}
+.track-status{letter-spacing:.20em}
+.track strong{letter-spacing:-.02em}
+.progress-row input{
+  filter:drop-shadow(0 0 4px rgba(242,154,69,.14));
+}
+.play{
+  box-shadow:0 6px 20px rgba(0,0,0,.22);
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.play:hover{
+  transform:scale(1.04);
+  box-shadow:0 8px 24px rgba(0,0,0,.28);
+}
+.disc{
+  transition:transform .18s ease, border-color .18s ease;
+}
+.disc:hover{
+  transform:scale(1.03);
+  border-color:rgba(32,201,120,.55);
+}
+
+/* Keep desktop player position from V13.4 exactly, while making
+   the internal layout feel less cramped. */
+@media (min-width:901px){
+  .radio{
+    left:57% !important;
+    bottom:48px !important;
+    width:44vw !important;
+    max-width:680px !important;
+    height:168px !important;
+  }
+  .scene-label{
+    bottom:15% !important;
+  }
+}
+
+/* Mobile/tablet: preserve the established player geometry. */
+@media (max-width:900px){
+  .radio{
+    width:56% !important;
+    bottom:24px !important;
+  }
+}
+@media (max-width:600px){
+  .radio{
+    width:56% !important;
+    bottom:18px !important;
+  }
+}
+
+
+/* V13.6 — background-integrated radio player
+   Inspired by the reference players: translucent, atmospheric,
+   colour-pulled from the photograph instead of a solid black box. */
+
+.radio{
+  /* Let the photograph show through the panel. */
+  background:
+    linear-gradient(115deg,
+      rgba(5,18,22,.54) 0%,
+      rgba(18,22,22,.38) 46%,
+      rgba(18,12,10,.48) 100%);
+  border-color:rgba(245,237,218,.18);
+  backdrop-filter:blur(18px) saturate(1.25);
+  -webkit-backdrop-filter:blur(18px) saturate(1.25);
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.26),
+    inset 0 1px 0 rgba(245,237,218,.10),
+    inset 0 -1px 0 rgba(32,201,120,.06);
+}
+
+/* A very soft colour wash makes the panel feel connected to
+   the rainy blue/orange photograph behind it. */
+.radio::marker{display:none}
+.radio{
+  isolation:isolate;
+}
+.radio::after{
+  background:
+    linear-gradient(90deg,
+      rgba(242,154,69,.90) 0%,
+      rgba(245,237,218,.78) 50%,
+      rgba(32,201,120,.90) 100%) !important;
+  box-shadow:0 0 12px rgba(242,154,69,.08);
+}
+.radio::before{
+  background:
+    linear-gradient(90deg,
+      rgba(242,154,69,.90) 0%,
+      rgba(245,237,218,.78) 50%,
+      rgba(32,201,120,.90) 100%) !important;
+}
+
+/* Slightly transparent internal disc, so it belongs to the same
+   visual atmosphere instead of looking pasted on. */
+.disc{
+  background:
+    linear-gradient(135deg,
+      rgba(16,32,36,.70),
+      rgba(12,24,25,.46));
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+
+/* Play button stays readable, but loses the hard isolated feel. */
+.play{
+  background:rgba(245,237,218,.94);
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.22),
+    0 0 0 1px rgba(245,237,218,.12);
+}
+
+/* Keep all established positioning and dimensions unchanged. */
+@media (min-width:901px){
+  .radio{
+    left:57% !important;
+    bottom:48px !important;
+    width:44vw !important;
+    max-width:680px !important;
+    height:168px !important;
+  }
+}
+@media (max-width:900px){
+  .radio{
+    width:56% !important;
+    bottom:24px !important;
+  }
+}
+@media (max-width:600px){
+  .radio{
+    width:56% !important;
+    bottom:18px !important;
+  }
 }
