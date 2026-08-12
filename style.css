@@ -193,3 +193,50 @@ dialog p:last-child{line-height:1.7;opacity:.75}
   .hero-copy h1{font-size:52px}
   .scene-label{bottom:23%}
 }
+
+
+/* V13.2 — DESKTOP REFERENCE LOCK
+   Desktop only: keep the player medium, centered and lower,
+   matching the supplied red-box reference. */
+@media (min-width:901px){
+  .radio{
+    width:44vw !important;
+    max-width:680px !important;
+    min-width:0 !important;
+    height:168px !important;
+    min-height:168px !important;
+    max-height:168px !important;
+    left:50% !important;
+    bottom:48px !important;
+    transform:translateX(-50%) !important;
+    overflow:hidden !important;
+  }
+}
+
+
+/* V13.3 — desktop composition cleanup */
+@media (min-width:901px){
+  /* Keep the title completely clean: the scene label moves below it. */
+  .scene-label{
+    left:7% !important;
+    bottom:15% !important;
+    z-index:4 !important;
+  }
+
+  /* The orange scene line must not cross the title. */
+  .orange-line{
+    margin-bottom:18px !important;
+  }
+
+  /* Player keeps the V13.2 size, but shifts slightly to the right. */
+  .radio{
+    left:54% !important;
+    width:44vw !important;
+    max-width:680px !important;
+    min-width:0 !important;
+    height:168px !important;
+    min-height:168px !important;
+    max-height:168px !important;
+    bottom:48px !important;
+  }
+}
