@@ -268,3 +268,193 @@ dialog p:last-child{line-height:1.7;opacity:.75}
     ) !important;
   }
 }
+
+
+/* V13.5 — finishing polish
+   Keep the established composition/size. Only improve spacing,
+   contrast, glass depth and the tricolour accent. */
+
+/* A calmer foreground vignette so the typography stays readable
+   without making the photograph look overly dark. */
+.hero-shade{
+  background:
+    linear-gradient(180deg,
+      rgba(2,10,16,.18) 0%,
+      rgba(2,10,16,.03) 36%,
+      rgba(2,10,16,.20) 66%,
+      rgba(2,10,16,.64) 100%),
+    linear-gradient(90deg,
+      rgba(2,10,16,.34) 0%,
+      rgba(2,10,16,.08) 48%,
+      rgba(2,10,16,.18) 100%);
+}
+
+/* Scene accent: unmistakable Indian tricolour, but deliberately thin. */
+.orange-line{
+  background:linear-gradient(
+    90deg,
+    var(--orange) 0%,
+    var(--orange) 33%,
+    rgba(245,237,218,.92) 33%,
+    rgba(245,237,218,.92) 66%,
+    var(--green) 66%,
+    var(--green) 100%
+  ) !important;
+  box-shadow:0 0 12px rgba(242,154,69,.10);
+}
+
+/* Give the scene metadata a little breathing room from the player. */
+.scene-label{
+  text-shadow:0 2px 12px rgba(0,0,0,.30);
+}
+.scene-name{letter-spacing:-.01em}
+
+/* Premium glass treatment for the existing player — no size change. */
+.radio{
+  background:
+    linear-gradient(135deg,
+      rgba(8,18,22,.94),
+      rgba(4,11,14,.88) 58%,
+      rgba(6,16,18,.92));
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.38),
+    inset 0 1px 0 rgba(245,237,218,.07),
+    inset 0 -1px 0 rgba(32,201,120,.035);
+  border-color:rgba(245,237,218,.22);
+}
+
+.radio-main{gap:18px}
+.track-status{letter-spacing:.20em}
+.track strong{letter-spacing:-.02em}
+.progress-row input{
+  filter:drop-shadow(0 0 4px rgba(242,154,69,.14));
+}
+.play{
+  box-shadow:0 6px 20px rgba(0,0,0,.22);
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.play:hover{
+  transform:scale(1.04);
+  box-shadow:0 8px 24px rgba(0,0,0,.28);
+}
+.disc{
+  transition:transform .18s ease, border-color .18s ease;
+}
+.disc:hover{
+  transform:scale(1.03);
+  border-color:rgba(32,201,120,.55);
+}
+
+/* Keep desktop player position from V13.4 exactly, while making
+   the internal layout feel less cramped. */
+@media (min-width:901px){
+  .radio{
+    left:57% !important;
+    bottom:48px !important;
+    width:44vw !important;
+    max-width:680px !important;
+    height:168px !important;
+  }
+  .scene-label{
+    bottom:15% !important;
+  }
+}
+
+/* Mobile/tablet: preserve the established player geometry. */
+@media (max-width:900px){
+  .radio{
+    width:56% !important;
+    bottom:24px !important;
+  }
+}
+@media (max-width:600px){
+  .radio{
+    width:56% !important;
+    bottom:18px !important;
+  }
+}
+
+
+/* V13.6 — background-integrated radio player
+   Inspired by the reference players: translucent, atmospheric,
+   colour-pulled from the photograph instead of a solid black box. */
+
+.radio{
+  /* Let the photograph show through the panel. */
+  background:
+    linear-gradient(115deg,
+      rgba(5,18,22,.54) 0%,
+      rgba(18,22,22,.38) 46%,
+      rgba(18,12,10,.48) 100%);
+  border-color:rgba(245,237,218,.18);
+  backdrop-filter:blur(18px) saturate(1.25);
+  -webkit-backdrop-filter:blur(18px) saturate(1.25);
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.26),
+    inset 0 1px 0 rgba(245,237,218,.10),
+    inset 0 -1px 0 rgba(32,201,120,.06);
+}
+
+/* A very soft colour wash makes the panel feel connected to
+   the rainy blue/orange photograph behind it. */
+.radio::marker{display:none}
+.radio{
+  isolation:isolate;
+}
+.radio::after{
+  background:
+    linear-gradient(90deg,
+      rgba(242,154,69,.90) 0%,
+      rgba(245,237,218,.78) 50%,
+      rgba(32,201,120,.90) 100%) !important;
+  box-shadow:0 0 12px rgba(242,154,69,.08);
+}
+.radio::before{
+  background:
+    linear-gradient(90deg,
+      rgba(242,154,69,.90) 0%,
+      rgba(245,237,218,.78) 50%,
+      rgba(32,201,120,.90) 100%) !important;
+}
+
+/* Slightly transparent internal disc, so it belongs to the same
+   visual atmosphere instead of looking pasted on. */
+.disc{
+  background:
+    linear-gradient(135deg,
+      rgba(16,32,36,.70),
+      rgba(12,24,25,.46));
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+
+/* Play button stays readable, but loses the hard isolated feel. */
+.play{
+  background:rgba(245,237,218,.94);
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.22),
+    0 0 0 1px rgba(245,237,218,.12);
+}
+
+/* Keep all established positioning and dimensions unchanged. */
+@media (min-width:901px){
+  .radio{
+    left:57% !important;
+    bottom:48px !important;
+    width:44vw !important;
+    max-width:680px !important;
+    height:168px !important;
+  }
+}
+@media (max-width:900px){
+  .radio{
+    width:56% !important;
+    bottom:24px !important;
+  }
+}
+@media (max-width:600px){
+  .radio{
+    width:56% !important;
+    bottom:18px !important;
+  }
+}
