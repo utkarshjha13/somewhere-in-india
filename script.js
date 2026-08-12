@@ -71,8 +71,3 @@ document.getElementById("next").addEventListener("dblclick",()=>loadTrack(ti+1,t
 audio.addEventListener("timeupdate",()=>{current.textContent=fmt(audio.currentTime);if(audio.duration){duration.textContent=fmt(audio.duration);progress.style.width=(audio.currentTime/audio.duration*100)+"%"}})
 audio.addEventListener("ended",()=>loadTrack(ti+1,true));
 loadTrack(0,false);
-
-const modal=document.getElementById("modal");
-document.getElementById("infoBtn").onclick=()=>modal.hidden=false;
-document.getElementById("closeInfo").addEventListener("click",()=>{modal.hidden=true;modal.style.display="none"});
-modal.addEventListener("click",e=>{if(e.target===modal)modal.hidden=true});
