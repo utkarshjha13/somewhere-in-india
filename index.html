@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>11:47 PM — Somewhere in India</title>
+  <meta name="description" content="A tiny interactive night somewhere in India.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="grain"></div>
+
+  <main class="scene" aria-label="Interactive night scene">
+    <header class="topbar">
+      <div class="clock" id="clock">11:47 PM</div>
+      <div class="location">SOMEWHERE IN INDIA <span>•</span> 12.8°N–31.0°N</div>
+    </header>
+
+    <section class="intro">
+      <p class="eyebrow">A little night story</p>
+      <h1>Somewhere<br><em>in India.</em></h1>
+      <p class="hint">Tap the lights. Something is always awake.</p>
+    </section>
+
+    <section class="city" id="city">
+      <div class="moon"></div>
+      <div class="stars" aria-hidden="true"></div>
+
+      <div class="distant-haze"></div>
+
+      <div class="building b1"><span class="window w1"></span><span class="window w2"></span></div>
+      <div class="building b2"><span class="window w1"></span><span class="window w2"></span><span class="window w3"></span></div>
+      <div class="building b3"><span class="window w1"></span></div>
+
+      <button class="hotspot balcony" data-story="A student is still awake. Tomorrow's exam is circled on the calendar.">▢</button>
+      <button class="hotspot lamp" data-story="One streetlight. One empty road. The moths have claimed it for the night.">●</button>
+      <button class="hotspot chai" data-story="Last chai before closing. The kettle says otherwise.">☕</button>
+      <button class="hotspot bicycle" data-story="The bicycle belongs to someone who promised to be home by eleven.">↝</button>
+      <button class="hotspot train" data-story="A late train crosses somewhere beyond the buildings. Nobody here knows its destination.">▰</button>
+
+      <div class="road">
+        <div class="road-line"></div>
+      </div>
+
+      <div class="chai-stall">
+        <div class="stall-roof"></div>
+        <div class="stall-body">CHAI</div>
+        <div class="stall-light"></div>
+      </div>
+
+      <div class="cycle">🚲</div>
+      <div class="train-track"><span></span><span></span></div>
+      <div class="moving-train">▰▰▰</div>
+    </section>
+
+    <section class="story-card" id="storyCard" aria-live="polite">
+      <button class="close" id="closeStory" aria-label="Close">×</button>
+      <p class="story-label">YOU FOUND SOMETHING</p>
+      <p class="story-text" id="storyText">Tap something in the night.</p>
+    </section>
+
+    <footer>
+      <span>11:47 PM</span>
+      <span>•</span>
+      <span>Somewhere, someone is still awake.</span>
+      <button id="soundBtn">SOUND OFF</button>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
