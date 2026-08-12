@@ -7,23 +7,23 @@ button{font:inherit;color:inherit}
 .hero-image{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center 55%;filter:saturate(.94) contrast(1.02)}
 .image-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,10,14,.30) 0%,rgba(3,10,14,.05) 38%,rgba(3,10,14,.12) 55%,rgba(3,10,14,.78) 100%),linear-gradient(90deg,rgba(3,10,14,.35),transparent 55%)}
 .grain{position:absolute;inset:-50%;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");transform:rotate(8deg)}
-.topbar{position:absolute;z-index:5;top:28px;left:34px;right:34px;display:flex;align-items:center;justify-content:space-between}
+.topbar{position:absolute;z-index:10;top:24px;left:34px;right:34px;display:flex;align-items:center;justify-content:space-between;gap:24px}
 .clock,.location,.eyebrow,.radio,.scene-label,.times{font-family:"Space Mono",monospace}
 .clock{font-size:12px;letter-spacing:.12em}
 .location{display:flex;align-items:center;gap:10px;padding:12px 20px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(9,17,21,.42);backdrop-filter:blur(14px);font-size:11px;letter-spacing:.18em}
 .location span{width:8px;height:8px;border-radius:50%;background:#28d27b;box-shadow:0 0 14px #28d27b}
 .icon-button,.sound-button{border:1px solid rgba(255,255,255,.2);background:rgba(8,15,19,.38);backdrop-filter:blur(12px);cursor:pointer}
 .icon-button{width:42px;height:42px;border-radius:50%;font-family:"Space Mono";font-size:16px}
-.hero-copy{position:absolute;z-index:4;left:7%;top:46%;transform:translateY(-50%);max-width:900px}
+.hero-copy{position:absolute;z-index:4;left:7%;top:42%;transform:translateY(-50%);max-width:760px}
 .eyebrow{margin:0 0 18px;color:#e7b17c;font-size:12px;letter-spacing:.30em}
-h1{margin:0;font-size:clamp(58px,7.4vw,118px);line-height:.88;letter-spacing:-.055em;font-weight:700;text-shadow:0 4px 30px rgba(0,0,0,.25)}
+h1{margin:0;font-family:"Manrope","DM Sans",sans-serif;font-size:clamp(54px,6.4vw,96px);line-height:.92;letter-spacing:-.055em;font-weight:800;text-shadow:0 4px 30px rgba(0,0,0,.25);max-width:760px}
 h1 span{color:#eef0e9}
 .subtitle{margin:18px 0 0;font-family:"Space Mono";font-size:14px;letter-spacing:.04em;color:rgba(245,238,219,.82)}
-.scene-label{position:absolute;z-index:5;left:7%;bottom:20%;border-top:3px solid var(--orange);padding:14px 30px 12px 0;min-width:230px;background:linear-gradient(90deg,rgba(5,12,15,.72),transparent);font-size:10px;letter-spacing:.16em}
+.scene-label{position:absolute;z-index:5;left:7%;bottom:22%;border-top:3px solid var(--orange);padding:14px 30px 12px 0;min-width:230px;background:linear-gradient(90deg,rgba(5,12,15,.72),transparent);font-size:10px;letter-spacing:.16em}
 .scene-label strong{display:block;margin-top:10px;font-family:"DM Sans";font-size:17px;letter-spacing:0;color:var(--cream)}
-.radio{position:absolute;z-index:6;left:5%;right:5%;bottom:16px;padding:13px 22px 11px;border:1px solid rgba(255,255,255,.18);border-radius:22px;background:rgba(6,13,17,.82);backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.radio{position:absolute;z-index:6;left:5%;right:5%;bottom:14px;padding:11px 20px 9px;border:1px solid rgba(255,255,255,.18);border-radius:22px;background:rgba(6,13,17,.82);backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.3)}
 .radio-top,.radio-bottom{display:flex;justify-content:space-between;color:rgba(245,238,219,.56);font-size:10px;letter-spacing:.18em}
-.player{display:flex;align-items:center;gap:16px;margin:9px 0}
+.player{display:flex;align-items:center;gap:14px;margin:7px 0}
 .track-icon{width:44px;height:44px;flex:none;border-radius:50%;display:grid;place-items:center;background:#17272b;border:1px solid rgba(255,255,255,.12);color:var(--orange);font-size:22px}
 .track-info{flex:1;min-width:0}
 .track-info small{display:block;color:#aeb5b3;font-size:10px;letter-spacing:.2em}
@@ -31,8 +31,9 @@ h1 span{color:#eef0e9}
 .progress{height:4px;margin-top:9px;border-radius:99px;background:#394247;overflow:hidden}
 .progress i{display:block;width:0;height:100%;background:var(--orange)}
 .times{display:flex;justify-content:space-between;margin-top:5px;color:#8b9392;font-size:9px}
-.play{width:54px;height:54px;flex:none;border:0;border-radius:50%;background:var(--cream);color:#071015;cursor:pointer;font-size:19px;padding-left:4px}
+.play{width:50px;height:50px;flex:none;border:0;border-radius:50%;background:var(--cream);color:#071015;cursor:pointer;font-size:19px;padding-left:4px}
 .sound-button{position:absolute;z-index:7;right:34px;top:88px;width:42px;height:42px;border-radius:50%;font-size:17px}
+.creator-credit{display:flex;align-items:baseline;gap:9px;padding:9px 15px;border:1px solid rgba(255,255,255,.26);border-radius:999px;background:rgba(245,238,219,.93);color:#182126;box-shadow:0 8px 30px rgba(0,0,0,.18);white-space:nowrap;margin-left:auto}.creator-credit span{font-family:"Space Mono",monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;opacity:.62}.creator-credit em{font-family:Georgia,"Times New Roman",serif;font-size:16px;font-weight:700;font-style:italic;letter-spacing:.01em}.hero-copy h1{font-family:"Manrope","DM Sans",sans-serif;font-weight:800}.scene-label strong{font-family:"DM Sans",sans-serif;font-weight:600}.radio{max-height:155px}.radio-bottom{font-size:9px}.sound-button{z-index:11}
 dialog{width:min(560px,calc(100% - 32px));border:1px solid rgba(255,255,255,.18);border-radius:24px;background:#0b1519;color:var(--cream);padding:40px;box-shadow:0 30px 100px #000}
 dialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(8px)}
 dialog h2{font-size:38px;margin:8px 0 15px;letter-spacing:-.04em}
@@ -43,14 +44,17 @@ dialog p:last-child{font-size:17px;line-height:1.65;color:#b8c0bd}
   .topbar{top:18px;left:18px;right:18px}
   .location{padding:10px 14px;font-size:9px;letter-spacing:.13em}
   .icon-button{width:38px;height:38px}
+  .creator-credit{padding:7px 10px;gap:6px}
+  .creator-credit span{font-size:7px}
+  .creator-credit em{font-size:13px}
   .clock{font-size:10px}
-  .hero-copy{left:28px;right:20px;top:39%;transform:translateY(-50%)}
+  .hero-copy{left:28px;right:20px;top:37%;transform:translateY(-50%);max-width:calc(100% - 48px)}
   .eyebrow{font-size:9px;letter-spacing:.22em;margin-bottom:12px}
-  h1{font-size:clamp(50px,15vw,72px);line-height:.9;letter-spacing:-.05em}
+  h1{font-size:clamp(48px,13vw,68px);line-height:.93;letter-spacing:-.05em}
   .subtitle{font-size:10px;margin-top:14px}
-  .scene-label{left:28px;bottom:157px;min-width:185px;padding:10px 18px 8px 0}
+  .scene-label{left:28px;bottom:154px;min-width:185px;padding:10px 18px 8px 0}
   .scene-label strong{font-size:14px;margin-top:7px}
-  .radio{left:14px;right:14px;bottom:10px;padding:12px 15px 9px;border-radius:20px}
+  .radio{left:14px;right:14px;bottom:9px;padding:11px 15px 8px;border-radius:20px}
   .radio-top,.radio-bottom{font-size:7px}
   .player{gap:10px;margin:8px 0}
   .track-icon{width:38px;height:38px;font-size:16px}
@@ -58,7 +62,7 @@ dialog p:last-child{font-size:17px;line-height:1.65;color:#b8c0bd}
   .track-info strong{font-size:15px}
   .progress{height:4px;margin-top:7px}
   .times{font-size:8px}
-  .play{width:48px;height:48px;font-size:15px}
+  .play{width:46px;height:46px;font-size:15px}
   .sound-button{right:18px;top:72px}
 }
 @media (min-width:701px) and (max-height:720px){

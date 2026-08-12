@@ -51,8 +51,6 @@ audio.addEventListener("pause", ()=>{
   status.textContent = "READY";
 });
 
-infoBtn.addEventListener("click", ()=>dialog.showModal());
-closeBtn.addEventListener("click", ()=>dialog.close());
-dialog.addEventListener("click", e=>{
-  if(e.target === dialog) dialog.close();
-});
+if (infoBtn && dialog) infoBtn.addEventListener("click", ()=>dialog.showModal());
+if (closeBtn && dialog) closeBtn.addEventListener("click", ()=>dialog.close());
+if (dialog) dialog.addEventListener("click", e=>{ if(e.target === dialog) dialog.close(); });
