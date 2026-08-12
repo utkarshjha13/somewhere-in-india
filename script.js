@@ -1,56 +1,55 @@
-const clock = document.getElementById("clock");
 const audio = document.getElementById("audio");
 const playBtn = document.getElementById("playBtn");
-const status = document.getElementById("status");
+const playDisc = document.getElementById("playDisc");
+const progress = document.getElementById("progress");
 const current = document.getElementById("current");
 const duration = document.getElementById("duration");
-const progress = document.getElementById("progress");
+const clock = document.getElementById("clock");
 const infoBtn = document.getElementById("infoBtn");
 const dialog = document.getElementById("infoDialog");
 const closeBtn = document.getElementById("closeBtn");
 
-function updateClock(){
-  const now = new Date();
-  clock.textContent = now.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit", hour12:true}).toLowerCase();
-}
-updateClock();
-setInterval(updateClock, 1000);
-
-function fmt(seconds){
-  if (!Number.isFinite(seconds)) return "00:00";
-  const m = Math.floor(seconds/60).toString().padStart(2,"0");
-  const s = Math.floor(seconds%60).toString().padStart(2,"0");
+function formatTime(sec){
+  if(!Number.isFinite(sec)) return "00:00";
+  const m = Math.floor(sec/60).toString().padStart(2,"0");
+  const s = Math.floor(sec%60).toString().padStart(2,"0");
   return `${m}:${s}`;
 }
-
-playBtn.addEventListener("click", async () => {
-  if (!audio.src) {
-    status.textContent = "ADD AUDIO";
-    return;
-  }
-  if (audio.paused) {
-    await audio.play();
-  } else {
-    audio.pause();
-  }
-});
-
+function setPlayingUI(){
+  const playing = !audio.paused;
+  playBtn.textContent = playing ? "Ⅱ" : "▶";
+  playDisc.textContent = playing ? "Ⅱ" : "♪";
+}
+function togglePlay(){
+  if(audio.paused) audio.play().catch(()=>{});
+  else audio.pause();
+}
+playBtn.addEventListener("click", togglePlay);
+playDisc.addEventListener("click", togglePlay);
+audio.addEventListener("play", setPlayingUI);
+audio.addEventListener("pause", setPlayingUI);
 audio.addEventListener("loadedmetadata", ()=>{
-  duration.textContent = fmt(audio.duration);
+  duration.textContent = formatTime(audio.duration);
 });
 audio.addEventListener("timeupdate", ()=>{
-  current.textContent = fmt(audio.currentTime);
-  progress.style.width = audio.duration ? `${(audio.currentTime/audio.duration)*100}%` : "0%";
+  current.textContent = formatTime(audio.currentTime);
+  progress.value = audio.duration ? (audio.currentTime/audio.duration)*100 : 0;
 });
-audio.addEventListener("play", ()=>{
-  playBtn.textContent = "❚❚";
-  status.textContent = "PLAYING";
-});
-audio.addEventListener("pause", ()=>{
-  playBtn.textContent = "▶";
-  status.textContent = "READY";
+progress.addEventListener("input", ()=>{
+  if(audio.duration) audio.currentTime = (progress.value/100)*audio.duration;
 });
 
-if (infoBtn && dialog) infoBtn.addEventListener("click", ()=>dialog.showModal());
-if (closeBtn && dialog) closeBtn.addEventListener("click", ()=>dialog.close());
-if (dialog) dialog.addEventListener("click", e=>{ if(e.target === dialog) dialog.close(); });
+function updateClock(){
+  const now = new Date();
+  clock.textContent = now.toLocaleTimeString("en-IN",{
+    hour:"2-digit",minute:"2-digit",hour12:true
+  }).toUpperCase();
+}
+updateClock();
+setInterval(updateClock,1000);
+
+infoBtn.addEventListener("click",()=>dialog.showModal());
+closeBtn.addEventListener("click",()=>dialog.close());
+dialog.addEventListener("click",(e)=>{
+  if(e.target === dialog) dialog.close();
+});

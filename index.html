@@ -2,71 +2,90 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#071015">
-  <meta name="description" content="Somewhere in India — one place, one moment.">
-  <title>Somewhere in India</title>
+  <title>Somewhere in India — v13</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="hero">
-    <img class="hero-image" src="india-night.jpg" alt="A rainy Indian city at blue hour with an elevated railway and wet roads">
-    <div class="image-overlay"></div>
-    <div class="grain"></div>
+  <main class="story">
+    <div class="hero">
+      <!-- Put your final hero image beside this file as: india-night.jpg -->
+      <img class="hero-image" src="india-night.jpg" alt="Rainy Indian city at night">
+      <div class="hero-shade"></div>
+      <div class="grain"></div>
 
-    <header class="topbar">
-      <div class="clock" id="clock">--:--</div>
-      <div class="location"><span></span>SOMEWHERE, INDIA</div>
-      <div class="creator-credit" aria-label="Created by Utkarsh Jha"><span>created by</span><em>Utkarsh Jha</em></div>
-    </header>
+      <header class="topbar">
+        <time id="clock">--:-- --</time>
 
-    <section class="hero-copy">
-      <p class="eyebrow">A LITTLE NIGHT STORY</p>
-      <h1>Somewhere<br><span>in India.</span></h1>
-      <p class="subtitle">Not a place. Just a moment.</p>
-    </section>
-
-    <div class="scene-label">
-      <span>INDIA / NIGHT</span>
-      <strong>Rain after dark</strong>
-    </div>
-
-    <section class="radio" aria-label="Somewhere Radio">
-      <div class="radio-top">
-        <span>SOMEWHERE RADIO</span>
-        <span>01 / 01</span>
-      </div>
-
-      <div class="player">
-        <div class="track-icon">♪</div>
-        <div class="track-info">
-          <small id="status">READY</small>
-          <strong id="trackName">Late Night FM</strong>
-          <div class="progress"><i id="progress"></i></div>
-          <div class="times"><span id="current">00:00</span><span id="duration">00:00</span></div>
+        <div class="location-pill">
+          <span class="status-dot"></span>
+          SOMEWHERE, INDIA
         </div>
-        <button class="play" id="playBtn" aria-label="Play">▶</button>
+
+        <div class="creator">created by <em>Utkarsh Jha</em></div>
+
+        <button class="icon-btn" id="infoBtn" aria-label="About this story">?</button>
+        <button class="music-btn" id="soundBtn" aria-label="Toggle sound">♪</button>
+      </header>
+
+      <section class="hero-copy">
+        <p class="eyebrow">A LITTLE NIGHT STORY</p>
+        <h1><span>Somewhere</span><span>in India.</span></h1>
+        <p class="subtitle">Not a place. Just a moment.</p>
+      </section>
+
+      <div class="scene-label">
+        <div class="orange-line"></div>
+        <div class="scene-kicker">INDIA / NIGHT</div>
+        <div class="scene-name">Rain after dark</div>
       </div>
 
-      <div class="radio-bottom">
-        <span>90s / LATE NIGHT</span>
-        <span id="audioHint">ADD YOUR AUDIO IN /audio</span>
-      </div>
+      <!-- V13 PLAYER: medium, centered, responsive -->
+      <section class="radio" aria-label="Somewhere Radio">
+        <div class="radio-top">
+          <span>SOMEWHERE RADIO</span>
+          <span>01 / 01</span>
+        </div>
 
-      <audio id="audio" preload="metadata"></audio>
-    </section>
+        <div class="radio-main">
+          <button class="disc" id="playDisc" aria-label="Play or pause">
+            <span>♪</span>
+          </button>
 
-    <button class="sound-button" id="soundBtn" aria-label="Audio settings">♪</button>
+          <div class="track">
+            <div class="track-status"><span class="status-dot small"></span> READY</div>
+            <strong id="trackName">Late Night FM</strong>
+
+            <div class="progress-row">
+              <span id="current">00:00</span>
+              <input id="progress" type="range" min="0" max="100" value="0" aria-label="Audio progress">
+              <span id="duration">00:00</span>
+            </div>
+          </div>
+
+          <button class="play" id="playBtn" aria-label="Play">▶</button>
+        </div>
+
+        <div class="radio-foot">
+          <span>90s / LATE NIGHT</span>
+          <span>ADD YOUR AUDIO IN /audio</span>
+        </div>
+
+        <!-- Optional: place an audio file at audio/late-night.mp3 -->
+        <audio id="audio" preload="metadata" src="audio/late-night.mp3"></audio>
+      </section>
+    </div>
   </main>
 
   <dialog id="infoDialog">
     <button class="dialog-close" id="closeBtn" aria-label="Close">×</button>
     <p class="eyebrow">SOMEWHERE IN INDIA</p>
     <h2>A little visual story.</h2>
-    <p>One photograph. One quiet moment. Leave this tab open, put on a song, and stay for a while.</p>
+    <p>One rainy city. One passing train. One quiet moment.</p>
   </dialog>
 
   <script src="script.js"></script>
