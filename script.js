@@ -1,130 +1,78 @@
-const scenes = [
-  {
-    name:"DELHI · AFTER RAIN",
-    caption:"The city is still awake.",
-    img:"https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=2200&q=88"
-  },
-  {
-    name:"CITY LIGHTS · 11:47 PM",
-    caption:"Somewhere between the last train and the last chai.",
-    img:"https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=2200&q=88"
-  },
-  {
-    name:"RAINED-IN ROADS",
-    caption:"Wet roads. Warm windows. One more song.",
-    img:"https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2200&q=88"
-  },
-  {
-    name:"MIDNIGHT TRAFFIC",
-    caption:"Nobody is really in a hurry anymore.",
-    img:"https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=2200&q=88"
-  },
-  {
-    name:"NEON INDIA",
-    caption:"A little light makes a long road feel shorter.",
-    img:"https://images.unsplash.com/photo-1494522358652-f30e61a60313?auto=format&fit=crop&w=2200&q=88"
-  },
-  {
-    name:"LAST METRO",
-    caption:"The night moves. So do we.",
-    img:"https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=2200&q=88"
-  }
+const photos=[
+ {src:"images/india-01.jpg",type:"INDIA / NIGHT",place:"City Lights",caption:"When the whole city decides to stay awake."},
+ {src:"images/india-02.jpg",type:"INDIA / AFTER DARK",place:"A City Under Clouds",caption:"Somewhere between the clouds and the last light."},
+ {src:"images/india-03.jpg",type:"INDIA / HERITAGE",place:"Agra",caption:"A monument, a reflection, a thousand little stories."},
+ {src:"images/india-04.jpg",type:"INDIA / EVENING",place:"Kolkata",caption:"Old streets look different when the sky turns pink."},
+ {src:"images/india-05.jpg",type:"INDIA / BACKWATERS",place:"Kerala",caption:"Slow water. Warm air. Nowhere to rush."},
+ {src:"images/india-06.jpg",type:"INDIA / COUNTRYSIDE",place:"Somewhere Rural",caption:"The road gets quieter. The sky gets wider."}
 ];
 
-const audioTracks = [
-  {title:"Late Night FM", src:"audio/track-01.mp3"},
-  {title:"Midnight Chai", src:"audio/track-02.mp3"},
-  {title:"City Lights", src:"audio/track-03.mp3"},
-  {title:"Last Local", src:"audio/track-04.mp3"},
-  {title:"2 AM Roads", src:"audio/track-05.mp3"}
+const slides=document.getElementById("slides"),dots=document.getElementById("dots");
+const placeType=document.getElementById("placeType"),place=document.getElementById("place"),caption=document.getElementById("caption");
+const slideNo=document.getElementById("slideNo"),slideTotal=document.getElementById("slideTotal");
+let index=0,timer=null,startX=0;
+
+photos.forEach((p,i)=>{
+ const s=document.createElement("div");s.className="slide"+(i===0?" active":"");
+ const img=document.createElement("img");img.src=p.src;img.alt=p.place;img.loading=i<2?"eager":"lazy";s.appendChild(img);slides.appendChild(s);
+ const d=document.createElement("button");d.setAttribute("aria-label",`Go to slide ${i+1}`);d.onclick=()=>go(i,true);dots.appendChild(d);
+});
+slideTotal.textContent=String(photos.length).padStart(2,"0");
+
+function render(){
+ [...slides.children].forEach((s,i)=>s.classList.toggle("active",i===index));
+ [...dots.children].forEach((d,i)=>d.classList.toggle("active",i===index));
+ const p=photos[index];
+ placeType.textContent=p.type;place.textContent=p.place;caption.textContent=p.caption;
+ slideNo.textContent=String(index+1).padStart(2,"0");
+}
+function go(n,manual=false){
+ index=(n+photos.length)%photos.length;render();
+ if(manual) restart();
+}
+function restart(){clearInterval(timer);timer=setInterval(()=>go(index+1),9000)}
+document.getElementById("prev").onclick=()=>go(index-1,true);
+document.getElementById("next").onclick=()=>go(index+1,true);
+restart();
+
+document.addEventListener("keydown",e=>{if(e.key==="ArrowRight")go(index+1,true);if(e.key==="ArrowLeft")go(index-1,true);if(e.key===" ")togglePlay()});
+document.addEventListener("touchstart",e=>startX=e.touches[0].clientX,{passive:true});
+document.addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-startX;if(Math.abs(dx)>45)go(index+(dx<0?1:-1),true)},{passive:true});
+
+function clock(){
+ const d=new Date();let h=d.getHours(),m=String(d.getMinutes()).padStart(2,"0"),ap=h>=12?"PM":"AM";h=h%12||12;
+ document.getElementById("clock").textContent=`${String(h).padStart(2,"0")}:${m} ${ap}`;
+}
+clock();setInterval(clock,30000);
+
+const audio=document.getElementById("audio"), play=document.getElementById("play"), nameEl=document.getElementById("trackName");
+const state=document.getElementById("trackState"), progress=document.getElementById("progress"), current=document.getElementById("current"),duration=document.getElementById("duration");
+const tracks=[
+ {name:"Last Local",file:"audio/track-01.mp3"},
+ {name:"Chai After Dark",file:"audio/track-02.mp3"},
+ {name:"Rain on the Highway",file:"audio/track-03.mp3"},
+ {name:"Old City Lights",file:"audio/track-04.mp3"},
+ {name:"Late Night FM",file:"audio/track-05.mp3"}
 ];
-
-const a=document.querySelector(".photo-a"), b=document.querySelector(".photo-b");
-const caption=document.getElementById("caption");
-const sceneName=document.getElementById("sceneName");
-const sceneCount=document.getElementById("sceneCount");
-const audio=document.getElementById("audio");
-const play=document.getElementById("play");
-const progress=document.getElementById("progress");
-const elapsed=document.getElementById("elapsed");
-const duration=document.getElementById("duration");
-const trackTitle=document.getElementById("trackTitle");
-const trackNumber=document.getElementById("trackNumber");
-const trackState=document.getElementById("trackState");
-const soundState=document.getElementById("soundState");
-
-let sceneIndex=0, showingA=true, trackIndex=0, timer;
-
-function renderScene(i){
-  const s=scenes[i];
-  const incoming=showingA?b:a, outgoing=showingA?a:b;
-  incoming.style.backgroundImage=`url("${s.img}")`;
-  incoming.style.opacity="1";
-  outgoing.style.opacity="0";
-  incoming.classList.add("zoom");
-  setTimeout(()=>outgoing.classList.remove("zoom"),300);
-  showingA=!showingA;
-  caption.textContent=s.caption;
-  sceneName.textContent=s.name;
-  sceneCount.textContent=`${String(i+1).padStart(2,"0")} / ${String(scenes.length).padStart(2,"0")}`;
-}
-
-function nextScene(){
-  sceneIndex=(sceneIndex+1)%scenes.length;
-  renderScene(sceneIndex);
-}
-timer=setInterval(nextScene,9000);
-
-function fmt(sec){
-  if(!isFinite(sec)) return "00:00";
-  const m=Math.floor(sec/60), s=Math.floor(sec%60);
-  return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
-}
+let ti=0;
+function fmt(s){if(!Number.isFinite(s))return"00:00";return `${String(Math.floor(s/60)).padStart(2,"0")}:${String(Math.floor(s%60)).padStart(2,"0")}`}
 function loadTrack(i,autoplay=false){
-  trackIndex=(i+audioTracks.length)%audioTracks.length;
-  const t=audioTracks[trackIndex];
-  trackTitle.textContent=t.title;
-  trackNumber.textContent=`${String(trackIndex+1).padStart(2,"0")} / 05`;
-  audio.src=t.src;
-  audio.load();
-  trackState.textContent="READY";
-  soundState.textContent="ADD YOUR LICENSED TRACKS";
-  progress.style.width="0%";
-  elapsed.textContent="00:00";
-  duration.textContent="00:00";
-  if(autoplay) audio.play().catch(()=>{});
+ ti=(i+tracks.length)%tracks.length;const t=tracks[ti];audio.src=t.file;nameEl.textContent=t.name;document.getElementById("trackNo").textContent=String(ti+1).padStart(2,"0");state.textContent="READY";progress.style.width="0%";current.textContent="00:00";duration.textContent="00:00";
+ if(autoplay)audio.play().catch(()=>{});
 }
-play.addEventListener("click",()=>{
-  if(!audio.src) loadTrack(trackIndex);
-  if(audio.paused){
-    audio.play().then(()=>{
-      play.textContent="Ⅱ";
-      trackState.textContent="PLAYING";
-      soundState.textContent="SOUND ON";
-    }).catch(()=>{
-      trackState.textContent="ADD AUDIO FILES";
-    });
-  }else{
-    audio.pause();
-    play.textContent="▶";
-    trackState.textContent="PAUSED";
-  }
-});
-document.getElementById("next").addEventListener("click",()=>loadTrack(trackIndex+1,true));
-document.getElementById("prev").addEventListener("click",()=>loadTrack(trackIndex-1,true));
-audio.addEventListener("loadedmetadata",()=>duration.textContent=fmt(audio.duration));
-audio.addEventListener("timeupdate",()=>{
-  elapsed.textContent=fmt(audio.currentTime);
-  progress.style.width=(audio.duration?(audio.currentTime/audio.duration)*100:0)+"%";
-});
-audio.addEventListener("ended",()=>loadTrack(trackIndex+1,true));
-
-function updateClock(){
-  const d=new Date();
-  const time=d.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",hour12:true});
-  document.getElementById("clock").textContent=time;
-  document.getElementById("footerTime").textContent=`${time} · SOMEWHERE IN INDIA`;
+function togglePlay(){
+ if(!audio.src)loadTrack(ti);
+ if(audio.paused){audio.play().then(()=>{play.textContent="Ⅱ";state.textContent="PLAYING"}).catch(()=>{state.textContent="TAP AGAIN"})}
+ else{audio.pause();play.textContent="▶";state.textContent="PAUSED"}
 }
-updateClock(); setInterval(updateClock,1000);
-
+play.onclick=togglePlay;
+document.getElementById("prev").addEventListener("dblclick",()=>loadTrack(ti-1,true));
+document.getElementById("next").addEventListener("dblclick",()=>loadTrack(ti+1,true));
+audio.addEventListener("timeupdate",()=>{current.textContent=fmt(audio.currentTime);if(audio.duration){duration.textContent=fmt(audio.duration);progress.style.width=(audio.currentTime/audio.duration*100)+"%"}})
+audio.addEventListener("ended",()=>loadTrack(ti+1,true));
 loadTrack(0,false);
+
+const modal=document.getElementById("modal");
+document.getElementById("infoBtn").onclick=()=>modal.hidden=false;
+document.getElementById("closeInfo").onclick=()=>modal.hidden=true;
+modal.addEventListener("click",e=>{if(e.target===modal)modal.hidden=true});
