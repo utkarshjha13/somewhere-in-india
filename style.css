@@ -458,3 +458,69 @@ dialog p:last-child{line-height:1.7;opacity:.75}
     bottom:18px !important;
   }
 }
+
+
+/* V13.8 — ambient live-presence pill */
+.live-presence{
+  position:absolute;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:38px;
+  padding:0 17px;
+  border:1px solid rgba(245,237,218,.17);
+  border-radius:999px;
+  background:rgba(6,17,21,.38);
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.16),
+    inset 0 1px 0 rgba(255,255,255,.07);
+  backdrop-filter:blur(15px) saturate(1.25);
+  -webkit-backdrop-filter:blur(15px) saturate(1.25);
+  color:rgba(248,244,232,.94);
+  font-family:"DM Sans",sans-serif;
+  font-size:12px;
+  letter-spacing:.035em;
+  white-space:nowrap;
+  pointer-events:none;
+}
+.live-presence strong{
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.01em;
+}
+.live-presence #presenceText{
+  opacity:.86;
+}
+.presence-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 0 4px rgba(32,201,120,.08),0 0 13px rgba(32,201,120,.48);
+  animation:presencePulse 2s ease-in-out infinite;
+}
+@keyframes presencePulse{
+  0%,100%{transform:scale(.92);opacity:.76}
+  50%{transform:scale(1.08);opacity:1}
+}
+@media (max-width:900px){
+  .live-presence{
+    min-height:36px;
+    padding:0 14px;
+    font-size:11px;
+  }
+}
+@media (max-width:600px){
+  .live-presence{
+    top:-1px;
+    min-height:34px;
+    padding:0 12px;
+    gap:7px;
+    font-size:10px;
+  }
+  .live-presence strong{font-size:11px}
+  .presence-dot{width:7px;height:7px}
+}

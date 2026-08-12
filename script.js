@@ -53,3 +53,24 @@ closeBtn.addEventListener("click",()=>dialog.close());
 dialog.addEventListener("click",(e)=>{
   if(e.target === dialog) dialog.close();
 });
+
+
+/* V13.8 presence UI
+   GitHub Pages is static, so it cannot know the number of people on the
+   site across the internet by itself. This safely shows the current
+   visitor as "1 person here" until a real presence backend is connected.
+   Replace updatePresence() with a backend-backed presence implementation
+   when deploying the real counter. */
+(() => {
+  const countEl = document.getElementById("presenceCount");
+  const textEl = document.getElementById("presenceText");
+  if (!countEl || !textEl) return;
+
+  function updatePresence(count){
+    count = Math.max(1, Number(count) || 1);
+    countEl.textContent = count;
+    textEl.textContent = count === 1 ? "person here" : "people here";
+  }
+
+  updatePresence(1);
+})();
