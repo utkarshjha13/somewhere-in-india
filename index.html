@@ -1,95 +1,102 @@
 <!doctype html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Somewhere in India — V3</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Somewhere in India — A little night story</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="grain"></div>
-<div class="scene">
-  <div class="sky"></div>
-  <div class="sunset"></div>
-  <div class="moon"></div>
-  <div class="wires"></div>
-  <div class="city"></div>
+<div class="sky"></div>
+<header class="topbar">
+  <div class="eyebrow">A LITTLE NIGHT STORY</div>
+  <div class="live"><i></i> SOMEWHERE, INDIA</div>
+  <div class="clock" id="clock">11:47 PM</div>
+  <button class="help" id="help">?</button>
+</header>
 
-  <header>
-    <div class="clock">11:47 PM</div>
-    <div class="live"><i></i> SOMEWHERE, INDIA</div>
-    <button class="round" id="info">?</button>
-  </header>
-
-  <main>
-    <div class="eyebrow">A LITTLE NIGHT STORY</div>
-    <h1>Somewhere<br><em>in India.</em></h1>
-    <p class="tag">Not a place. Just a moment.</p>
-  </main>
-
-  <div class="scene-detail chai" data-title="THE LAST CHAI" data-text="The kettle is still warm. Someone said they would close ten minutes ago.">
-    <span class="steam s1"></span><span class="steam s2"></span><span class="steam s3"></span>
-    <div class="cup">☕</div>
-    <b>चाय</b>
-  </div>
-
-  <div class="scene-detail auto" data-title="THE LAST AUTO" data-text="One more ride. One more road. Then home.">
-    <span class="auto-light"></span><span class="auto-body"></span>
-  </div>
-
-  <div class="scene-detail window" data-title="THE LIGHTED WINDOW" data-text="Somebody is still awake upstairs. Maybe studying. Maybe just thinking.">
-    <span></span><span></span><span></span>
-  </div>
-
-  <div class="road"></div>
-  <div class="bike"><span></span><span></span><b></b></div>
-  <div class="train"><i></i><i></i><i></i></div>
-
-  <button class="hotspot hs1" data-title="THE LAST CHAI" data-text="The kettle is still warm. Someone said they would close ten minutes ago.">+</button>
-  <button class="hotspot hs2" data-title="THE WINDOW" data-text="Somebody is still awake upstairs. Maybe studying. Maybe just thinking.">+</button>
-  <button class="hotspot hs3" data-title="THE ROAD" data-text="A bike disappears around the corner. The night keeps going.">+</button>
-
-  <section class="player">
-    <div class="player-label">SOMEWHERE RADIO <span>90s / LATE NIGHT</span></div>
-    <div class="player-main">
-      <div class="art">♫</div>
-      <div class="song">
-        <small id="status">READY</small>
-        <strong id="track">Late Night FM</strong>
-        <div class="progress"><i></i></div>
-        <small id="time">00:00 / 00:00</small>
-      </div>
-      <div class="controls">
-        <button id="prev">‹</button>
-        <button class="play" id="play">▶</button>
-        <button id="next">›</button>
-      </div>
+<main>
+  <section class="hero">
+    <div class="moon"></div>
+    <div class="stars"></div>
+    <div class="hero-copy">
+      <p class="kicker">12.8°N — 31.0°N • AFTER DARK</p>
+      <h1>Somewhere<br><em>in India.</em></h1>
+      <p class="sub">The city is asleep. Not everyone is.</p>
+      <button class="enter" id="enter">ENTER THE NIGHT <span>↗</span></button>
     </div>
-    <div class="player-bottom"><span id="count">01 / 05</span><span>Music source will be added later</span></div>
   </section>
 
-  <div class="story" id="story">
-    <button id="close">×</button>
-    <small id="storyTitle">SOMEWHERE</small>
-    <p id="storyText">Tap the little glowing points around the scene.</p>
+  <section class="city" id="city">
+    <div class="horizon"></div>
+    <div class="buildings">
+      <span style="--h:38%;--x:3%"></span><span style="--h:58%;--x:13%"></span>
+      <span style="--h:46%;--x:27%"></span><span style="--h:67%;--x:39%"></span>
+      <span style="--h:51%;--x:54%"></span><span style="--h:73%;--x:66%"></span>
+      <span style="--h:43%;--x:82%"></span><span style="--h:61%;--x:92%"></span>
+    </div>
+    <div class="road"></div>
+
+    <div class="wire w1"></div><div class="wire w2"></div>
+    <div class="lamp l1"></div><div class="lamp l2"></div>
+
+    <button class="hotspot h1" data-story="chai">+</button>
+    <button class="hotspot h2" data-story="train">+</button>
+    <button class="hotspot h3" data-story="night">+</button>
+
+    <div class="chai-stall">
+      <div class="stall-roof">CHAI • 10/-</div>
+      <div class="stall-body">
+        <div class="steam s1"></div><div class="steam s2"></div>
+        <div class="cup">☕</div>
+        <div class="stall-text">गरम चाय<br><small>और थोड़ी रात</small></div>
+      </div>
+    </div>
+
+    <div class="auto"><span>●</span><b>DELHI</b></div>
+    <div class="bike">🚲</div>
+    <div class="train"><i></i><i></i><i></i><i></i></div>
+
+    <div class="story-card" id="storyCard">
+      <button class="close" id="closeStory">×</button>
+      <small id="storyTag">SOMEWHERE, TONIGHT</small>
+      <h2 id="storyTitle">Someone is still awake.</h2>
+      <p id="storyText">Tap the little lights. Every corner has a story.</p>
+    </div>
+  </section>
+
+  <section class="radio">
+    <div class="radio-head">
+      <div><small>SOMEWHERE RADIO</small><h2>Late Night FM</h2></div>
+      <div class="status"><i></i> READY</div>
+    </div>
+    <div class="player">
+      <div class="record">♪</div>
+      <div class="track">
+        <b id="trackTitle">A SONG FOR THE NIGHT</b>
+        <small id="trackArtist">licensed / your playlist</small>
+        <div class="progress"><span id="bar"></span></div>
+        <small id="time">00:00 / 00:00</small>
+      </div>
+      <button id="prev">‹</button><button class="play" id="play">▶</button><button id="next">›</button>
+    </div>
+    <p class="radio-note">Add your licensed/permission-based tracks later. The player is ready for a playlist.</p>
+  </section>
+
+  <section class="footer-note">
+    <span>11:47 PM • SOMEWHERE IN INDIA</span>
+    <span>KEEP SOUND ON • BEST EXPERIENCED AT NIGHT</span>
+  </section>
+</main>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <button class="close" id="closeHelp">×</button>
+    <small>THE IDEA</small>
+    <h2>A tiny internet corner for the India that stays awake.</h2>
+    <p>Tap the lights, discover small stories, and let the night radio become the soundtrack. Built as a playful one-page experience.</p>
   </div>
-
-  <footer><span>11:47 PM · SOMEWHERE IN INDIA</span><button id="ambience">SOUND OFF</button></footer>
-</div>
-
-<div class="intro" id="intro">
-  <div class="intro-top">A DIGITAL NIGHT STORY <span>01 / 01</span></div>
-  <div class="intro-time">11:47<span>PM</span></div>
-  <div class="intro-title">Somewhere<br><em>in India.</em></div>
-  <button id="enter">ENTER THE NIGHT <span>↗</span></button>
-  <div class="intro-bottom">BEST EXPERIENCED WITH SOUND · AFTER DARK</div>
-</div>
-
-<div class="info-panel" id="infoPanel">
-  <button id="infoClose">×</button>
-  <small>SOMEWHERE IN INDIA</small>
-  <h2>A night that could be anywhere.</h2>
-  <p>There are thousands of small moments happening after midnight. This one belongs to nobody — and everybody.</p>
 </div>
 <script src="script.js"></script>
 </body>

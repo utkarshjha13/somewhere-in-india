@@ -1,29 +1,35 @@
-const intro=document.getElementById("intro");
-document.getElementById("enter").onclick=()=>intro.classList.add("out");
+const $=s=>document.querySelector(s);
+const clock=$("#clock");
+function tick(){const d=new Date();clock.textContent=d.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",hour12:true}).toUpperCase()}
+tick();setInterval(tick,1000);
 
-const story=document.getElementById("story"), st=document.getElementById("storyTitle"), sx=document.getElementById("storyText");
-document.querySelectorAll(".hotspot").forEach(b=>b.onclick=()=>{st.textContent=b.dataset.title;sx.textContent=b.dataset.text;story.classList.add("open")});
-document.querySelectorAll(".scene-detail").forEach(o=>o.onclick=()=>{st.textContent=o.dataset.title;sx.textContent=o.dataset.text;story.classList.add("open")});
-document.getElementById("close").onclick=()=>story.classList.remove("open");
+$("#enter").onclick=()=>document.querySelector("#city").scrollIntoView({behavior:"smooth"});
+$("#help").onclick=()=>$("#modal").classList.add("show");
+$("#closeHelp").onclick=()=>$("#modal").classList.remove("show");
 
-const tracks=["Late Night FM","A Rainy Road","Two Stations Away","The Last Chai","Home, Somewhere"];
-let n=0,playing=false;
-function render(){document.getElementById("track").textContent=tracks[n];document.getElementById("count").textContent=`${String(n+1).padStart(2,"0")} / 05`;}
-function toggle(){playing=!playing;document.getElementById("play").textContent=playing?"Ⅱ":"▶";document.getElementById("status").textContent=playing?"PLAYING":"READY";}
-document.getElementById("play").onclick=toggle;
-document.getElementById("next").onclick=()=>{n=(n+1)%tracks.length;render();if(!playing)toggle()};
-document.getElementById("prev").onclick=()=>{n=(n+4)%tracks.length;render()};
-render();
-
-document.getElementById("info").onclick=()=>document.getElementById("infoPanel").classList.add("open");
-document.getElementById("infoClose").onclick=()=>document.getElementById("infoPanel").classList.remove("open");
-
-let audioCtx=null,osc=null;
-document.getElementById("ambience").onclick=()=>{
- const btn=document.getElementById("ambience");
- if(audioCtx){osc.stop();audioCtx.close();audioCtx=null;btn.textContent="SOUND OFF";return}
- audioCtx=new (window.AudioContext||window.webkitAudioContext)();
- const gain=audioCtx.createGain();gain.gain.value=.012;gain.connect(audioCtx.destination);
- osc=audioCtx.createOscillator();osc.type="sine";osc.frequency.value=72;osc.connect(gain);osc.start();
- btn.textContent="SOUND ON";
+const stories={
+ chai:["CHAI / 11:47 PM","The last kettle","A little stall, two steel glasses, one tired bulb. Someone is always making one more cup."],
+ train:["TRACKSIDE / SOMEWHERE","The late train","It doesn't matter where it is going. For a few seconds, the whole neighbourhood knows it passed."],
+ night:["WINDOW / 12:13 AM","A light upstairs","One window is still glowing. Exam tomorrow? A night shift? Or simply someone who isn't ready to sleep."]
 };
+document.querySelectorAll(".hotspot").forEach(b=>b.onclick=()=>{
+ const s=stories[b.dataset.story];$("#storyTag").textContent=s[0];$("#storyTitle").textContent=s[1];$("#storyText").textContent=s[2];$("#storyCard").classList.add("show")
+});
+$("#closeStory").onclick=()=>$("#storyCard").classList.remove("show");
+
+const tracks=[
+ ["A SONG FOR THE NIGHT","licensed / your playlist"],
+ ["MIDNIGHT CHAI","licensed / your playlist"],
+ ["CITY LIGHTS","licensed / your playlist"],
+ ["LAST TRAIN HOME","licensed / your playlist"],
+ ["SOMEWHERE, 1998","licensed / your playlist"]
+];
+let idx=0, playing=false;
+function render(){const t=tracks[idx];$("#trackTitle").textContent=t[0];$("#trackArtist").textContent=t[1];$("#bar").style.width="0%";$("#time").textContent="00:00 / 00:00"}
+$("#prev").onclick=()=>{idx=(idx+tracks.length-1)%tracks.length;render()};
+$("#next").onclick=()=>{idx=(idx+1)%tracks.length;render()};
+$("#play").onclick=()=>{
+ playing=!playing;$("#play").textContent=playing?"❚❚":"▶";
+ if(playing) $("#status")?.classList;
+};
+render();
