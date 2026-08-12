@@ -120,90 +120,78 @@ h1{margin:0;font-size:clamp(55px,6vw,92px);line-height:.96;letter-spacing:-3px;f
 </section>
 </main>
 
+
 <script>
-const tracks = [
-  {
-    title: "Dheere Dheere Se Meri Zindagi Mein Aana",
-    file: "audio/Dheere Dheere Se Meri Zindagi Mein Aana (Aashiqui) - (Raag.Fm).mp3"
-  },
-  {
-    title: "Ek Dil Hai",
-    file: "audio/Ek Dil Hai (Ek Rishtaa) - (Raag.Fm).mp3"
-  },
-  {
-    title: "Is Tarah Aashiqui Ka",
-    file: "audio/Is Tarah Aashiqui Ka - Kumar Sanu (Imtihan) - (Raag.Fm).mp3"
-  }
+const playlist = [
+  {file:"audio/track1.mp3", title:"Dheere Dheere Se Meri Zindagi Mein Aana"},
+  {file:"audio/track2.mp3", title:"Ek Dil Hai"},
+  {file:"audio/track3.mp3", title:"Is Tarah Aashiqui Ka"}
 ];
 
 const audio = document.getElementById("audio");
-const play = document.getElementById("play");
-const prev = document.getElementById("prev");
-const next = document.getElementById("next");
+const playBtn = document.getElementById("play");
 const progress = document.getElementById("progress");
-const title = document.getElementById("trackTitle");
-const current = document.getElementById("currentTime");
-const duration = document.getElementById("duration");
+const currentTimeEl = document.getElementById("currentTime");
+const durationEl = document.getElementById("duration");
+const titleEl = document.getElementById("trackTitle");
+const statusEl = document.getElementById("audioStatus");
 
-let index = 0;
+let trackIndex = 0;
 
-function fmt(sec) {
-  if (!Number.isFinite(sec)) return "00:00";
-  sec = Math.max(0, Math.floor(sec));
-  return String(Math.floor(sec / 60)).padStart(2,"0") + ":" + String(sec % 60).padStart(2,"0");
+function fmt(t){
+  if(!Number.isFinite(t)) return "00:00";
+  t=Math.max(0,Math.floor(t));
+  return String(Math.floor(t/60)).padStart(2,"0")+":"+String(t%60).padStart(2,"0");
 }
 
-function loadTrack(i, autoplay=false) {
-  index = (i + tracks.length) % tracks.length;
-  title.textContent = tracks[index].title;
-  audio.src = tracks[index].file;
-  progress.value = 0;
-  current.textContent = "00:00";
-  duration.textContent = "00:00";
-  if (autoplay) {
-    audio.play().then(() => play.textContent = "Ⅱ").catch(() => {
-      play.textContent = "▶";
-    });
-  } else {
-    play.textContent = "▶";
+function loadTrack(i, autoplay=false){
+  trackIndex=(i+playlist.length)%playlist.length;
+  titleEl.textContent=playlist[trackIndex].title;
+  audio.src=playlist[trackIndex].file;
+  audio.load();
+  progress.value=0;
+  currentTimeEl.textContent="00:00";
+  durationEl.textContent="00:00";
+  statusEl.textContent="READY";
+  if(autoplay){
+    audio.play().catch(()=>{ statusEl.textContent="TAP PLAY"; });
   }
 }
 
-play.addEventListener("click", () => {
-  if (audio.paused) {
-    audio.play().then(() => play.textContent = "Ⅱ").catch(() => {
-      play.textContent = "▶";
-    });
-  } else {
+playBtn.addEventListener("click",()=>{
+  if(audio.paused){
+    audio.play().catch(()=>{ statusEl.textContent="TAP PLAY"; });
+  }else{
     audio.pause();
-    play.textContent = "▶";
   }
 });
 
-prev.addEventListener("click", () => loadTrack(index - 1, true));
-next.addEventListener("click", () => loadTrack(index + 1, true));
-
-audio.addEventListener("loadedmetadata", () => {
-  duration.textContent = fmt(audio.duration);
+audio.addEventListener("play",()=>{
+  playBtn.textContent="Ⅱ";
+  statusEl.textContent="PLAYING";
 });
-audio.addEventListener("timeupdate", () => {
-  current.textContent = fmt(audio.currentTime);
-  progress.value = audio.duration ? Math.round((audio.currentTime / audio.duration) * 1000) : 0;
+audio.addEventListener("pause",()=>{
+  playBtn.textContent="▶";
+  if(!audio.ended) statusEl.textContent="PAUSED";
 });
-progress.addEventListener("input", () => {
-  if (audio.duration) audio.currentTime = (Number(progress.value) / 1000) * audio.duration;
+audio.addEventListener("loadedmetadata",()=>{
+  durationEl.textContent=fmt(audio.duration);
 });
-audio.addEventListener("play", () => play.textContent = "Ⅱ");
-audio.addEventListener("pause", () => play.textContent = "▶");
-audio.addEventListener("ended", () => loadTrack(index + 1, true));
+audio.addEventListener("timeupdate",()=>{
+  currentTimeEl.textContent=fmt(audio.currentTime);
+  if(audio.duration) progress.value=(audio.currentTime/audio.duration)*1000;
+});
+progress.addEventListener("input",()=>{
+  if(audio.duration) audio.currentTime=(progress.value/1000)*audio.duration;
+});
+audio.addEventListener("ended",()=>{
+  loadTrack(trackIndex+1,true);
+});
+audio.addEventListener("error",()=>{
+  statusEl.textContent="ADD AUDIO";
+});
 
-function clock(){
-  const el=document.getElementById("clock");
-  if(el) el.textContent=new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit",hour12:true}).toUpperCase();
-}
-clock(); setInterval(clock,1000);
-
-loadTrack(0, false);
+loadTrack(0,false);
 </script>
 
 </body>
