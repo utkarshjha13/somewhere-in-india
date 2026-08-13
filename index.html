@@ -653,6 +653,42 @@ h1{margin:0;font-size:clamp(55px,6vw,92px);line-height:.96;letter-spacing:-3px;f
 }
 </style>
 
+
+<style>
+/* PLAYER INTERNAL REDESIGN — OUTER SIZE/POSITION UNCHANGED */
+.player{overflow:hidden!important;background:radial-gradient(circle at 18% 70%,rgba(160,60,25,.25),transparent 34%),radial-gradient(circle at 82% 35%,rgba(45,105,78,.20),transparent 35%),rgba(16,18,20,.88)!important;border:1px solid rgba(255,255,255,.12)!important;box-shadow:0 18px 45px rgba(0,0,0,.32)!important;backdrop-filter:blur(18px) saturate(120%)!important;-webkit-backdrop-filter:blur(18px) saturate(120%)!important}
+.player .ph{display:flex!important;justify-content:space-between!important;align-items:center!important;color:rgba(247,240,223,.48)!important;letter-spacing:2px!important;font:9px "Courier New",monospace!important;padding:14px 18px 0!important}
+.player-main{display:flex!important;align-items:center!important;gap:16px!important;padding:12px 18px 12px!important}
+.album-art{width:64px!important;height:64px!important;flex:0 0 64px!important;border-radius:50%!important;overflow:hidden!important;border:1px solid rgba(255,255,255,.18)!important;box-shadow:0 6px 20px rgba(0,0,0,.28)!important}
+.album-art img{width:100%!important;height:100%!important;display:block!important;object-fit:cover!important}
+.song{flex:1!important;min-width:0!important}
+.song strong{display:block!important;color:#f7f0df!important;font-family:Arial,sans-serif!important;font-size:19px!important;line-height:1.1!important;margin:0 0 3px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.artist{color:rgba(247,240,223,.58)!important;font:13px Arial,sans-serif!important;margin-bottom:9px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.seek{display:grid!important;grid-template-columns:auto minmax(60px,1fr) auto!important;align-items:center!important;gap:8px!important;color:rgba(247,240,223,.52)!important;font:10px "Courier New",monospace!important}
+.seek input{min-width:0!important;width:100%!important;margin:0!important;accent-color:#ef9745!important}
+.controls{display:flex!important;align-items:center!important;justify-content:center!important;gap:12px!important;flex:0 0 auto!important}
+.ctrl{width:32px!important;height:32px!important;padding:0!important;border:0!important;background:transparent!important;color:rgba(247,240,223,.68)!important;font-size:17px!important;line-height:1!important;border-radius:50%!important;cursor:pointer!important;transition:.18s ease!important}
+.ctrl:hover,.ctrl.active{color:#fff!important;background:rgba(255,255,255,.08)!important;transform:scale(1.05)!important}
+.player .play{width:54px!important;height:54px!important;flex:0 0 54px!important;padding:0!important;margin:0!important;display:grid!important;place-items:center!important;border:0!important;border-radius:50%!important;background:#f8f0df!important;color:#182127!important;font-size:19px!important;box-shadow:0 5px 20px rgba(0,0,0,.22)!important}
+.player .prev,.player .next{margin:0!important;width:32px!important;height:32px!important;flex:0 0 32px!important;border:0!important;background:transparent!important}
+.player .pf{display:none!important}
+@media(max-width:800px) and (orientation:portrait){
+ .player-main{display:grid!important;grid-template-columns:52px minmax(0,1fr)!important;gap:11px!important;padding:9px 15px 5px!important}
+ .album-art{width:52px!important;height:52px!important;flex-basis:52px!important}
+ .song strong{font-size:15px!important}.artist{font-size:11px!important;margin-bottom:6px!important}.seek{font-size:8px!important;gap:5px!important}
+ .controls{grid-column:1/-1!important;width:100%!important;justify-content:center!important;gap:18px!important;padding:3px 0!important}
+ .ctrl{width:30px!important;height:30px!important;font-size:16px!important}.player .play{width:50px!important;height:50px!important;flex-basis:50px!important;font-size:17px!important}
+ .player .ph{padding:11px 15px 0!important;font-size:8px!important}
+}
+@media(max-width:800px) and (orientation:landscape) and (max-height:500px){
+ .player-main{display:grid!important;grid-template-columns:42px minmax(0,1fr) auto!important;gap:8px!important;padding:7px 11px!important}
+ .album-art{width:42px!important;height:42px!important;flex-basis:42px!important}
+ .song strong{font-size:12px!important;margin-bottom:2px!important}.artist{font-size:8px!important;margin-bottom:4px!important}.seek{font-size:7px!important;gap:4px!important}
+ .controls{gap:5px!important}.ctrl{width:24px!important;height:24px!important;font-size:12px!important}.player .play{width:42px!important;height:42px!important;flex-basis:42px!important;font-size:15px!important}
+ .player .ph{padding:7px 11px 0!important;font-size:7px!important}
+}
+</style>
+
 </head>
 <body>
 <main class="hero">
@@ -676,136 +712,62 @@ h1{margin:0;font-size:clamp(55px,6vw,92px);line-height:.96;letter-spacing:-3px;f
 </section>
 
 <section class="player">
- <div class="ph"><span>SOMEWHERE RADIO</span><span>01 / 01</span></div>
- <div class="pm">
-  <div class="disc"><span>♪</span></div>
-  <audio id="audio" preload="metadata" playsinline></audio>
-  <div class="song">
-   <div class="ready" id="audioStatus"><i></i><span>READY</span></div>
-   <strong id="trackTitle">Late Night FM</strong>
-   <div class="seek"><span id="currentTime">00:00</span><input id="progress" type="range" min="0" max="1000" value="0"><span id="duration">00:00</span></div>
+  <div class="ph"><span>SOMEWHERE RADIO</span><span id="trackCount">01 / 03</span></div>
+  <div class="pm player-main">
+    <div class="album-art"><img src="data:image/jpeg;base64,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" alt=""></div>
+    <div class="song">
+      <strong id="trackTitle">Dheere - Dheere - Dheere</strong>
+      <div class="artist" id="trackArtist">Abhijeet - Topic</div>
+      <div class="seek"><span id="currentTime">0:00</span><input id="progress" type="range" min="0" max="1000" value="0"><span id="duration">0:00</span></div>
+    </div>
+    <div class="controls">
+      <button type="button" class="ctrl" id="shuffle" aria-label="Shuffle">↝</button>
+      <button type="button" class="ctrl prev" id="prev" aria-label="Previous">|‹</button>
+      <button type="button" class="play" id="play" aria-label="Play/Pause" onclick="window.__playToggle && window.__playToggle(event)">▶</button>
+      <button type="button" class="ctrl next" id="next" aria-label="Next">›|</button>
+      <button type="button" class="ctrl" id="queue" aria-label="Playlist">☷</button>
+    </div>
+    <audio id="audio" preload="metadata" playsinline></audio>
   </div>
-  <button type="button" class="prev" id="prev" aria-label="Previous">‹</button><button type="button" class="play" id="play" onclick="window.__playToggle && window.__playToggle(event)">▶</button><button type="button" class="next" id="next" aria-label="Next">›</button>
- </div>
- <div class="pf"><span>90s / LATE NIGHT</span><span id="audioHint">ADD YOUR AUDIO IN /audio</span></div>
 </section>
 </main>
 
 
 <script>
-const playlist = [
-  {file:"track1.mp3", title:"Dheere Dheere Se Meri Zindagi Mein Aana"},
-  {file:"track2.mp3", title:"Ek Dil Hai"},
-  {file:"track3.mp3", title:"Is Tarah Aashiqui Ka"}
+const playlist=[
+ {file:"track1.mp3",title:"Dheere - Dheere - Dheere",artist:"Abhijeet - Topic"},
+ {file:"track2.mp3",title:"Ek Dil Hai",artist:"Unknown Artist"},
+ {file:"track3.mp3",title:"Is Tarah Aashiqui Ka",artist:"Unknown Artist"}
 ];
-
-const audio = document.getElementById("audio");
-const playBtn = document.getElementById("play");
-const prevBtn = document.getElementById("prev");
-const nextBtn = document.getElementById("next");
-const progress = document.getElementById("progress");
-const currentTimeEl = document.getElementById("currentTime");
-const durationEl = document.getElementById("duration");
-const titleEl = document.getElementById("trackTitle");
-const statusEl = document.getElementById("audioStatus");
-
-let trackIndex = 0;
-
-// Keep the media element in the DOM without display:none; this is more reliable on mobile browsers.
-audio.style.position = "absolute";
-audio.style.width = "1px";
-audio.style.height = "1px";
-audio.style.opacity = "0.01";
-audio.style.left = "-2px";
-audio.style.bottom = "0";
-audio.style.pointerEvents = "none";
-audio.setAttribute("playsinline", "");
-audio.preload = "metadata";
-
-function fmt(t){
-  if(!Number.isFinite(t)) return "00:00";
-  t=Math.max(0,Math.floor(t));
-  return String(Math.floor(t/60)).padStart(2,"0")+":"+String(t%60).padStart(2,"0");
+const audio=document.getElementById("audio"),playBtn=document.getElementById("play"),
+prevBtn=document.getElementById("prev"),nextBtn=document.getElementById("next"),
+shuffleBtn=document.getElementById("shuffle"),queueBtn=document.getElementById("queue"),
+progress=document.getElementById("progress"),currentTimeEl=document.getElementById("currentTime"),
+durationEl=document.getElementById("duration"),titleEl=document.getElementById("trackTitle"),
+artistEl=document.getElementById("trackArtist"),countEl=document.getElementById("trackCount");
+let trackIndex=0,shuffle=false;
+audio.style.cssText="position:absolute;width:1px;height:1px;opacity:.01;left:-2px;bottom:0;pointer-events:none;";
+function fmt(t){if(!Number.isFinite(t))return"0:00";t=Math.max(0,Math.floor(t));return Math.floor(t/60)+":"+String(t%60).padStart(2,"0")}
+function loadTrack(i,autoplay=false){
+ trackIndex=(i+playlist.length)%playlist.length;const t=playlist[trackIndex];
+ titleEl.textContent=t.title;artistEl.textContent=t.artist;
+ countEl.textContent=String(trackIndex+1).padStart(2,"0")+" / "+String(playlist.length).padStart(2,"0");
+ audio.pause();audio.src=t.file;audio.load();progress.value=0;currentTimeEl.textContent="0:00";
+ durationEl.textContent="0:00";playBtn.textContent="▶";if(autoplay)setTimeout(togglePlay,80);
 }
-function status(text){ statusEl.innerHTML='<i></i><span>'+text+'</span>'; }
-
-function loadTrack(i, autoplay=false){
-  trackIndex=(i+playlist.length)%playlist.length;
-  const track=playlist[trackIndex];
-  titleEl.textContent=track.title;
-  audio.pause();
-  audio.src=track.file;
-  audio.load();
-  progress.value=0;
-  currentTimeEl.textContent="00:00";
-  durationEl.textContent="00:00";
-  playBtn.textContent="▶";
-  status("READY");
-  if(autoplay){ setTimeout(function(){ togglePlay(); },80); }
-}
-
-async function togglePlay(){
-  if(audio.paused){
-    status("LOADING");
-    try{
-      await audio.play();
-    }catch(err){
-      console.error("Audio play failed",err,audio.src,audio.error);
-      status("AUDIO ERROR");
-    }
-  }else{
-    audio.pause();
-  }
-}
-
-// Both normal click and touch/pointer activation are supported.
-window.__playToggle = function(e){
-  if(e){ e.preventDefault(); e.stopPropagation(); }
-  togglePlay();
-};
-playBtn.addEventListener("click", window.__playToggle);
-playBtn.addEventListener("touchend", function(e){ e.preventDefault(); window.__playToggle(e); }, {passive:false});
-prevBtn.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); loadTrack(trackIndex-1); });
-nextBtn.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); loadTrack(trackIndex+1); });
-
-
-
-progress.addEventListener("input",()=>{
-  if(Number.isFinite(audio.duration) && audio.duration>0)
-    audio.currentTime=(Number(progress.value)/1000)*audio.duration;
-});
-
-audio.addEventListener("play",()=>{
-  playBtn.textContent="Ⅱ";
-  status("PLAYING");
-});
-audio.addEventListener("pause",()=>{
-  playBtn.textContent="▶";
-  if(!audio.ended) status("PAUSED");
-});
-audio.addEventListener("loadedmetadata",()=>{
-  durationEl.textContent=fmt(audio.duration);
-});
-audio.addEventListener("canplay",()=>{
-  if(audio.paused) status("READY");
-});
-audio.addEventListener("timeupdate",()=>{
-  currentTimeEl.textContent=fmt(audio.currentTime);
-  if(Number.isFinite(audio.duration) && audio.duration>0)
-    progress.value=(audio.currentTime/audio.duration)*1000;
-});
-audio.addEventListener("ended",()=>loadTrack(trackIndex+1,true));
-audio.addEventListener("error",()=>{
-  console.error("Could not load audio", audio.src, audio.error);
-  status("AUDIO ERROR");
-});
-
-// Extra mobile-safe delegation: if the browser targets a nested element, still catch the tap.
-document.addEventListener("click", function(e){
-  const b=e.target.closest && e.target.closest("#play");
-  if(b){ window.__playToggle(e); }
-}, true);
-
+async function togglePlay(){if(audio.paused){try{await audio.play()}catch(e){console.error(e)}}else audio.pause()}
+window.__playToggle=e=>{if(e){e.preventDefault();e.stopPropagation()}togglePlay()};
+playBtn.addEventListener("click",window.__playToggle);
+prevBtn.addEventListener("click",e=>{e.preventDefault();loadTrack(trackIndex-1)});
+nextBtn.addEventListener("click",e=>{e.preventDefault();loadTrack(shuffle?Math.floor(Math.random()*playlist.length):trackIndex+1)});
+shuffleBtn.addEventListener("click",e=>{e.preventDefault();shuffle=!shuffle;shuffleBtn.classList.toggle("active",shuffle)});
+queueBtn.addEventListener("click",e=>{e.preventDefault();queueBtn.classList.add("active");setTimeout(()=>queueBtn.classList.remove("active"),450)});
+progress.addEventListener("input",()=>{if(audio.duration>0)audio.currentTime=progress.value/1000*audio.duration});
+audio.addEventListener("play",()=>playBtn.textContent="Ⅱ");
+audio.addEventListener("pause",()=>playBtn.textContent="▶");
+audio.addEventListener("loadedmetadata",()=>durationEl.textContent=fmt(audio.duration));
+audio.addEventListener("timeupdate",()=>{currentTimeEl.textContent=fmt(audio.currentTime);if(audio.duration>0)progress.value=audio.currentTime/audio.duration*1000});
+audio.addEventListener("ended",()=>loadTrack(shuffle?Math.floor(Math.random()*playlist.length):trackIndex+1,true));
 loadTrack(0,false);
 </script>
 
