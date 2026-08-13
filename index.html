@@ -120,7 +120,7 @@ h1{margin:0;font-size:clamp(55px,6vw,92px);line-height:.96;letter-spacing:-3px;f
    <strong id="trackTitle">Late Night FM</strong>
    <div class="seek"><span id="currentTime">00:00</span><input id="progress" type="range" min="0" max="1000" value="0"><span id="duration">00:00</span></div>
   </div>
-  <button class="prev" id="prev" aria-label="Previous">‹</button><button class="play" id="play">▶</button><button class="next" id="next" aria-label="Next">›</button>
+  <button type="button" class="prev" id="prev" aria-label="Previous">‹</button><button type="button" class="play" id="play" onclick="window.__playToggle && window.__playToggle(event)">▶</button><button type="button" class="next" id="next" aria-label="Next">›</button>
  </div>
  <div class="pf"><span>90s / LATE NIGHT</span><span id="audioHint">ADD YOUR AUDIO IN /audio</span></div>
 </section>
@@ -176,7 +176,7 @@ function loadTrack(i, autoplay=false){
   durationEl.textContent="00:00";
   playBtn.textContent="▶";
   status("READY");
-  if(autoplay){ setTimeout(togglePlay,80); }
+  if(autoplay){ setTimeout(function(){ togglePlay(); },80); }
 }
 
 async function togglePlay(){
@@ -194,11 +194,16 @@ async function togglePlay(){
 }
 
 // Both normal click and touch/pointer activation are supported.
-playBtn.onclick = function(e){ e.preventDefault(); e.stopPropagation(); togglePlay(); };
-prevBtn.onclick = function(e){ e.preventDefault(); e.stopPropagation(); loadTrack(trackIndex-1); };
-nextBtn.onclick = function(e){ e.preventDefault(); e.stopPropagation(); loadTrack(trackIndex+1); };
+window.__playToggle = function(e){
+  if(e){ e.preventDefault(); e.stopPropagation(); }
+  togglePlay();
+};
+playBtn.addEventListener("click", window.__playToggle);
+playBtn.addEventListener("touchend", function(e){ e.preventDefault(); window.__playToggle(e); }, {passive:false});
+prevBtn.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); loadTrack(trackIndex-1); });
+nextBtn.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); loadTrack(trackIndex+1); });
 
-playBtn.addEventListener("pointerup", function(e){ e.preventDefault(); e.stopPropagation(); }, {passive:false});
+
 
 progress.addEventListener("input",()=>{
   if(Number.isFinite(audio.duration) && audio.duration>0)
@@ -229,6 +234,12 @@ audio.addEventListener("error",()=>{
   console.error("Could not load audio", audio.src, audio.error);
   status("AUDIO ERROR");
 });
+
+// Extra mobile-safe delegation: if the browser targets a nested element, still catch the tap.
+document.addEventListener("click", function(e){
+  const b=e.target.closest && e.target.closest("#play");
+  if(b){ window.__playToggle(e); }
+}, true);
 
 loadTrack(0,false);
 </script>
