@@ -481,6 +481,178 @@ h1{margin:0;font-size:clamp(55px,6vw,92px);line-height:.96;letter-spacing:-3px;f
   .pf{padding-bottom:5px !important;}
 }
 </style>
+
+<style>
+/* ===== PHONE LANDSCAPE ONLY — FINAL ISOLATED FIX =====
+   Portrait and desktop/tablet layouts are intentionally untouched.
+*/
+@media (max-width:800px) and (orientation:landscape) and (max-height:500px){
+
+  /* Keep the header clean and separated */
+  .top{
+    top:10px !important;
+    left:5.5% !important;
+    right:5.5% !important;
+    height:46px !important;
+  }
+
+  .pill{
+    top:0 !important;
+    left:50% !important;
+    right:auto !important;
+    transform:translateX(-50%) !important;
+    font-size:10px !important;
+    padding:8px 13px !important;
+  }
+
+  .credit{
+    display:block !important;
+    position:absolute !important;
+    top:4px !important;
+    right:0 !important;
+    font-size:9px !important;
+    line-height:1.1 !important;
+    white-space:nowrap !important;
+    z-index:30 !important;
+  }
+
+  .credit b{
+    font-size:12px !important;
+  }
+
+  /* Main title: left side, compact enough for a short landscape phone */
+  .content{
+    left:6.5% !important;
+    top:31% !important;
+    width:43% !important;
+    z-index:8 !important;
+  }
+
+  .overline{
+    font-size:8px !important;
+    letter-spacing:1.8px !important;
+    margin-bottom:13px !important;
+  }
+
+  .content h1{
+    font-size:clamp(34px,7.5vw,52px) !important;
+    line-height:.92 !important;
+    letter-spacing:-1.8px !important;
+  }
+
+  .subtitle{
+    font-size:11px !important;
+    margin-top:12px !important;
+    white-space:nowrap !important;
+  }
+
+  /* Story stays on the left and no longer gets hidden behind the player */
+  .story{
+    left:6.5% !important;
+    bottom:5% !important;
+    width:42% !important;
+    min-width:0 !important;
+    z-index:9 !important;
+  }
+
+  .story h2{
+    font-size:13px !important;
+    margin-top:7px !important;
+  }
+
+  .tag{
+    font-size:8px !important;
+    letter-spacing:1.8px !important;
+  }
+
+  /* Compact radio card on the right */
+  .player{
+    left:50% !important;
+    right:auto !important;
+    width:44% !important;
+    bottom:3% !important;
+    height:136px !important;
+    min-height:0 !important;
+    border-radius:16px !important;
+    z-index:25 !important;
+  }
+
+  .ph{
+    padding:8px 11px 0 !important;
+    font-size:7px !important;
+  }
+
+  .pm{
+    display:grid !important;
+    grid-template-columns:36px minmax(0,1fr) 44px !important;
+    gap:7px !important;
+    padding:7px 11px 3px !important;
+  }
+
+  .disc{
+    width:36px !important;
+    height:36px !important;
+    flex-basis:36px !important;
+  }
+
+  .disc:after{
+    width:29px !important;
+    height:29px !important;
+  }
+
+  .ready{
+    font-size:7px !important;
+    letter-spacing:1px !important;
+    margin-bottom:3px !important;
+  }
+
+  .ready i{
+    width:5px !important;
+    height:5px !important;
+    margin-right:4px !important;
+  }
+
+  .song strong{
+    font-size:11px !important;
+    line-height:1.05 !important;
+    margin-bottom:4px !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+  }
+
+  .seek{
+    gap:4px !important;
+    font-size:7px !important;
+  }
+
+  .play{
+    width:44px !important;
+    height:44px !important;
+    flex-basis:44px !important;
+    font-size:15px !important;
+  }
+
+  .pf{
+    padding:0 11px 5px !important;
+    font-size:6px !important;
+    letter-spacing:1px !important;
+  }
+
+  .side{
+    width:42px !important;
+    height:42px !important;
+    right:3% !important;
+    top:25% !important;
+    font-size:18px !important;
+  }
+
+  .side.music{
+    top:46% !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <main class="hero">
