@@ -82,6 +82,12 @@ h1{margin:0;font-size:clamp(55px,6vw,92px);line-height:.96;letter-spacing:-3px;f
   .player{z-index:6}
 }
 .prev,.next{width:34px;height:34px;border:1px solid rgba(255,255,255,.14);border-radius:50%;background:rgba(255,255,255,.06);color:#f7f0df;font-size:22px;line-height:1;flex:0 0 34px}.prev{margin-left:-12px}.next{margin-left:-12px}.song{min-width:0}@media(max-width:800px){.prev,.next{display:none}}\n</style>
+
+<style>
+.audio-player-fix{position:relative;z-index:20}
+.player,.player *{pointer-events:auto}.player button{position:relative;z-index:50;cursor:pointer;pointer-events:auto;touch-action:manipulation}
+.player .play{display:grid;place-items:center;position:relative;z-index:50}
+</style>
 </head>
 <body>
 <main class="hero">
@@ -108,9 +114,9 @@ h1{margin:0;font-size:clamp(55px,6vw,92px);line-height:.96;letter-spacing:-3px;f
  <div class="ph"><span>SOMEWHERE RADIO</span><span>01 / 01</span></div>
  <div class="pm">
   <div class="disc"><span>♪</span></div>
-  <audio id="audio" preload="metadata"></audio>
+  <audio id="audio" preload="metadata" playsinline></audio>
   <div class="song">
-   <div class="ready"><i></i>READY</div>
+   <div class="ready" id="audioStatus"><i></i><span>READY</span></div>
    <strong id="trackTitle">Late Night FM</strong>
    <div class="seek"><span id="currentTime">00:00</span><input id="progress" type="range" min="0" max="1000" value="0"><span id="duration">00:00</span></div>
   </div>
@@ -130,6 +136,8 @@ const playlist = [
 
 const audio = document.getElementById("audio");
 const playBtn = document.getElementById("play");
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
 const progress = document.getElementById("progress");
 const currentTimeEl = document.getElementById("currentTime");
 const durationEl = document.getElementById("duration");
@@ -138,57 +146,88 @@ const statusEl = document.getElementById("audioStatus");
 
 let trackIndex = 0;
 
+// Keep the media element in the DOM without display:none; this is more reliable on mobile browsers.
+audio.style.position = "absolute";
+audio.style.width = "1px";
+audio.style.height = "1px";
+audio.style.opacity = "0.01";
+audio.style.left = "-2px";
+audio.style.bottom = "0";
+audio.style.pointerEvents = "none";
+audio.setAttribute("playsinline", "");
+audio.preload = "metadata";
+
 function fmt(t){
   if(!Number.isFinite(t)) return "00:00";
   t=Math.max(0,Math.floor(t));
   return String(Math.floor(t/60)).padStart(2,"0")+":"+String(t%60).padStart(2,"0");
 }
+function status(text){ statusEl.innerHTML='<i></i><span>'+text+'</span>'; }
 
 function loadTrack(i, autoplay=false){
   trackIndex=(i+playlist.length)%playlist.length;
-  titleEl.textContent=playlist[trackIndex].title;
-  audio.src=playlist[trackIndex].file;
+  const track=playlist[trackIndex];
+  titleEl.textContent=track.title;
+  audio.pause();
+  audio.src=track.file;
   audio.load();
   progress.value=0;
   currentTimeEl.textContent="00:00";
   durationEl.textContent="00:00";
-  statusEl.textContent="READY";
-  if(autoplay){
-    audio.play().catch(()=>{ statusEl.textContent="TAP PLAY"; });
-  }
+  playBtn.textContent="▶";
+  status("READY");
+  if(autoplay){ setTimeout(togglePlay,80); }
 }
 
-playBtn.addEventListener("click",()=>{
+async function togglePlay(){
   if(audio.paused){
-    audio.play().catch(()=>{ statusEl.textContent="TAP PLAY"; });
+    status("LOADING");
+    try{
+      await audio.play();
+    }catch(err){
+      console.error("Audio play failed",err,audio.src,audio.error);
+      status("AUDIO ERROR");
+    }
   }else{
     audio.pause();
   }
+}
+
+// Both normal click and touch/pointer activation are supported.
+playBtn.onclick = function(e){ e.preventDefault(); e.stopPropagation(); togglePlay(); };
+prevBtn.onclick = function(e){ e.preventDefault(); e.stopPropagation(); loadTrack(trackIndex-1); };
+nextBtn.onclick = function(e){ e.preventDefault(); e.stopPropagation(); loadTrack(trackIndex+1); };
+
+playBtn.addEventListener("pointerup", function(e){ e.preventDefault(); e.stopPropagation(); }, {passive:false});
+
+progress.addEventListener("input",()=>{
+  if(Number.isFinite(audio.duration) && audio.duration>0)
+    audio.currentTime=(Number(progress.value)/1000)*audio.duration;
 });
 
 audio.addEventListener("play",()=>{
   playBtn.textContent="Ⅱ";
-  statusEl.textContent="PLAYING";
+  status("PLAYING");
 });
 audio.addEventListener("pause",()=>{
   playBtn.textContent="▶";
-  if(!audio.ended) statusEl.textContent="PAUSED";
+  if(!audio.ended) status("PAUSED");
 });
 audio.addEventListener("loadedmetadata",()=>{
   durationEl.textContent=fmt(audio.duration);
 });
+audio.addEventListener("canplay",()=>{
+  if(audio.paused) status("READY");
+});
 audio.addEventListener("timeupdate",()=>{
   currentTimeEl.textContent=fmt(audio.currentTime);
-  if(audio.duration) progress.value=(audio.currentTime/audio.duration)*1000;
+  if(Number.isFinite(audio.duration) && audio.duration>0)
+    progress.value=(audio.currentTime/audio.duration)*1000;
 });
-progress.addEventListener("input",()=>{
-  if(audio.duration) audio.currentTime=(progress.value/1000)*audio.duration;
-});
-audio.addEventListener("ended",()=>{
-  loadTrack(trackIndex+1,true);
-});
+audio.addEventListener("ended",()=>loadTrack(trackIndex+1,true));
 audio.addEventListener("error",()=>{
-  statusEl.textContent="ADD AUDIO";
+  console.error("Could not load audio", audio.src, audio.error);
+  status("AUDIO ERROR");
 });
 
 loadTrack(0,false);
