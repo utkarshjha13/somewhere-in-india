@@ -990,19 +990,28 @@ loadTrack(0,false);
   z-index:20 !important;
 }
 
-/* MOBILE PORTRAIT */
+/* MOBILE PORTRAIT — PLAYER FINAL POSITION */
 @media (max-width:600px) and (orientation:portrait){
-  .player{
-    position:absolute !important;
-    top:auto !important;
-    bottom:22px !important;
-    right:23px !important;
-    width:calc(100vw - 46px) !important;
-    max-width:none !important;
-    min-width:0 !important;
-    height:auto !important;
-    z-index:20 !important;
-  }
+
+    .player{
+        position:absolute !important;
+
+        top:auto !important;
+        bottom:85px !important;
+
+        right:12px !important;
+        left:12px !important;
+
+        width:auto !important;
+        max-width:none !important;
+        min-width:0 !important;
+
+        min-height:155px !important;
+        height:auto !important;
+
+        z-index:20 !important;
+    }
+
 }
 </style>
 
