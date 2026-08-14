@@ -802,6 +802,25 @@ function loadTrack(i, autoplay=false){
   trackIndex=(i+playlist.length)%playlist.length;
   const track=playlist[trackIndex];
   titleEl.textContent=track.title;
+ const colors = [
+  ["#ff6b35", "#ffd166", "#06d6a0", "rgba(255,107,53,.35)"],
+  ["#7b2ff7", "#f8f9fa", "#00d4ff", "rgba(123,47,247,.35)"],
+  ["#ff4d6d", "#ffe066", "#8338ec", "rgba(255,77,109,.35)"],
+  ["#00b4d8", "#caf0f8", "#0077b6", "rgba(0,180,216,.35)"],
+  ["#ff9f1c", "#fff3b0", "#e71d36", "rgba(255,159,28,.35)"],
+  ["#9b5de5", "#f15bb5", "#00bbf9", "rgba(155,93,229,.35)"],
+  ["#2a9d8f", "#e9c46a", "#264653", "rgba(42,157,143,.35)"],
+  ["#e63946", "#f1fa8c", "#457b9d", "rgba(230,57,70,.35)"],
+  ["#06d6a0", "#118ab2", "#ffd166", "rgba(6,214,160,.35)"],
+  ["#f72585", "#b5179e", "#7209b7", "rgba(247,37,133,.35)"]
+];
+
+const c = colors[trackIndex];
+
+document.querySelector(".disc").style.setProperty("--c1", c[0]);
+document.querySelector(".disc").style.setProperty("--c2", c[1]);
+document.querySelector(".disc").style.setProperty("--c3", c[2]);
+document.querySelector(".disc").style.setProperty("--glow", c[3]);
   audio.pause();
   audio.src=track.file;
   audio.load();
