@@ -50,7 +50,19 @@ h1{margin:0;font-size:clamp(55px,6vw,92px);line-height:.96;letter-spacing:-3px;f
 .player:before{top:0}.player:after{bottom:0}
 .ph,.pf{display:flex;justify-content:space-between;font:12px "Courier New",monospace;letter-spacing:2px;color:#aaa}.ph{padding:29px 34px 0}
 .pm{display:flex;align-items:center;gap:24px;padding:24px 34px 17px}
-.disc{width:70px;height:70px;flex:0 0 70px;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(#ef9745 0 33.33%,#eee9df 33.33% 66.66%,#29c97a 66.66%);color:#ef9745}
+.disc{
+  width:70px;
+  height:70px;
+  flex:0 0 70px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  position:relative;
+  background:conic-gradient(var(--c1) 0 45%,var(--c2) 45% 75%,var(--c3) 75%);
+  color:var(--c1);
+  box-shadow:0 0 18px var(--glow);
+  transition:background .5s ease,box-shadow .5s ease,color .5s ease;
+}
 .disc:after{content:"";position:absolute;width:43px;height:43px;border-radius:50%;background:#09272c}.disc span{position:relative;z-index:2}
 .song{flex:1;min-width:0}.ready{color:#29d17c;font:13px "Courier New",monospace;letter-spacing:2px;margin-bottom:9px}.ready i{display:inline-block;width:9px;height:9px;border-radius:50%;background:#29d17c;box-shadow:0 0 10px #29d17c;margin-right:9px}
 .song strong{display:block;font-size:24px;margin-bottom:12px}
