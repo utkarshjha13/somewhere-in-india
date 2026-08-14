@@ -867,6 +867,404 @@ document.addEventListener("click", function(e){
 
 loadTrack(0,false);
 </script>
+<!-- ===== AMBIENT WEATHER + AUDIO VISUALIZER ===== -->
 
+<style>
+/* Weather layer — page ke layout ko touch nahi karega */
+#ambientWeather{
+  position:fixed;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+/* Rain */
+.weather-drop{
+  position:absolute;
+  top:-40px;
+  width:1px;
+  height:45px;
+  background:linear-gradient(
+    to bottom,
+    transparent,
+    rgba(210,225,255,.45)
+  );
+  animation:weatherRain linear infinite;
+  opacity:.45;
+}
+
+@keyframes weatherRain{
+  from{
+    transform:translate3d(0,-60px,0) rotate(12deg);
+  }
+  to{
+    transform:translate3d(-90px,110vh,0) rotate(12deg);
+  }
+}
+
+/* Very subtle fog */
+.weather-fog{
+  position:absolute;
+  width:55vw;
+  height:22vh;
+  border-radius:50%;
+  background:rgba(220,220,220,.035);
+  filter:blur(35px);
+  animation:fogMove 18s ease-in-out infinite alternate;
+}
+
+@keyframes fogMove{
+  from{
+    transform:translateX(-10vw) scale(1);
+  }
+  to{
+    transform:translateX(18vw) scale(1.15);
+  }
+}
+
+/* Falling leaves */
+.weather-leaf{
+  position:absolute;
+  top:-30px;
+  width:7px;
+  height:11px;
+  border-radius:70% 20% 70% 20%;
+  background:rgba(190,150,100,.42);
+  animation:leafFall linear infinite;
+  transform:rotate(25deg);
+}
+
+@keyframes leafFall{
+  0%{
+    transform:translate3d(0,-40px,0) rotate(20deg);
+  }
+  35%{
+    transform:translate3d(55px,35vh,0) rotate(130deg);
+  }
+  70%{
+    transform:translate3d(-35px,70vh,0) rotate(230deg);
+  }
+  100%{
+    transform:translate3d(70px,110vh,0) rotate(330deg);
+  }
+}
+
+
+/* ===== AUDIO VISUALIZER ===== */
+
+#audioVisualizer{
+  position:absolute;
+  left:7%;
+  right:7%;
+  bottom:-18px;
+  width:86%;
+  height:24px;
+  pointer-events:none;
+  opacity:.72;
+  z-index:1;
+}
+
+.player{
+  position:relative;
+}
+
+@media(max-width:600px){
+  #audioVisualizer{
+    left:8%;
+    right:8%;
+    width:84%;
+    bottom:-16px;
+    height:20px;
+  }
+}
+</style>
+
+
+<!-- Weather particles -->
+<div id="ambientWeather" aria-hidden="true">
+  <div class="weather-fog" style="left:-15%;top:28%;"></div>
+  <div class="weather-fog" style="right:-20%;top:62%;animation-delay:-8s;"></div>
+</div>
+
+
+<script>
+/* =========================================================
+   AMBIENT WEATHER
+   ========================================================= */
+
+(function(){
+
+  const weather = document.getElementById("ambientWeather");
+
+  if(!weather) return;
+
+  /* Rain drops */
+  for(let i=0;i<32;i++){
+
+    const drop = document.createElement("span");
+
+    drop.className = "weather-drop";
+
+    drop.style.left = Math.random()*100 + "%";
+
+    drop.style.animationDuration =
+      (0.8 + Math.random()*1.2) + "s";
+
+    drop.style.animationDelay =
+      (-Math.random()*2) + "s";
+
+    drop.style.opacity =
+      (0.18 + Math.random()*0.32);
+
+    weather.appendChild(drop);
+  }
+
+
+  /* Leaves */
+  for(let i=0;i<7;i++){
+
+    const leaf = document.createElement("span");
+
+    leaf.className = "weather-leaf";
+
+    leaf.style.left = Math.random()*100 + "%";
+
+    leaf.style.animationDuration =
+      (7 + Math.random()*8) + "s";
+
+    leaf.style.animationDelay =
+      (-Math.random()*10) + "s";
+
+    weather.appendChild(leaf);
+  }
+
+})();
+
+
+/* =========================================================
+   AUDIO VISUALIZER
+   ========================================================= */
+
+(function(){
+
+  const audio = document.getElementById("audio");
+  const player = document.querySelector(".player");
+
+  if(!audio || !player) return;
+
+
+  /* Canvas create */
+  const canvas = document.createElement("canvas");
+
+  canvas.id = "audioVisualizer";
+
+  player.appendChild(canvas);
+
+  const ctx = canvas.getContext("2d");
+
+
+  let audioContext = null;
+  let analyser = null;
+  let source = null;
+  let animationStarted = false;
+
+
+  function setupVisualizer(){
+
+    if(audioContext) return;
+
+    try{
+
+      audioContext =
+        new (window.AudioContext ||
+             window.webkitAudioContext)();
+
+      analyser =
+        audioContext.createAnalyser();
+
+      analyser.fftSize = 128;
+
+      analyser.smoothingTimeConstant = 0.82;
+
+      source =
+        audioContext.createMediaElementSource(audio);
+
+      source.connect(analyser);
+
+      analyser.connect(audioContext.destination);
+
+      animationStarted = true;
+
+      draw();
+
+    }catch(error){
+
+      console.log(
+        "Visualizer unavailable:",
+        error
+      );
+
+    }
+
+  }
+
+
+  function resizeCanvas(){
+
+    const rect =
+      canvas.getBoundingClientRect();
+
+    const ratio =
+      window.devicePixelRatio || 1;
+
+    canvas.width =
+      rect.width * ratio;
+
+    canvas.height =
+      rect.height * ratio;
+
+    ctx.setTransform(
+      ratio,
+      0,
+      0,
+      ratio,
+      0,
+      0
+    );
+
+  }
+
+
+  function draw(){
+
+    if(!animationStarted) return;
+
+    requestAnimationFrame(draw);
+
+    resizeCanvas();
+
+    const width =
+      canvas.clientWidth;
+
+    const height =
+      canvas.clientHeight;
+
+
+    ctx.clearRect(
+      0,
+      0,
+      width,
+      height
+    );
+
+
+    if(!analyser || audio.paused){
+
+      return;
+
+    }
+
+
+    const data =
+      new Uint8Array(
+        analyser.frequencyBinCount
+      );
+
+    analyser.getByteFrequencyData(data);
+
+
+    const bars = 32;
+
+    const gap = 2;
+
+    const barWidth =
+      (width - gap*(bars-1))/bars;
+
+
+    for(let i=0;i<bars;i++){
+
+      const index =
+        Math.floor(
+          i * data.length / bars
+        );
+
+      const value =
+        data[index] / 255;
+
+      const barHeight =
+        Math.max(
+          2,
+          value * height
+        );
+
+
+      const x =
+        i * (barWidth + gap);
+
+      const y =
+        height - barHeight;
+
+
+      const gradient =
+        ctx.createLinearGradient(
+          0,
+          y,
+          0,
+          height
+        );
+
+      gradient.addColorStop(
+        0,
+        "rgba(255,190,90,.9)"
+      );
+
+      gradient.addColorStop(
+        1,
+        "rgba(40,220,150,.35)"
+      );
+
+
+      ctx.fillStyle = gradient;
+
+      ctx.fillRect(
+        x,
+        y,
+        barWidth,
+        barHeight
+      );
+
+    }
+
+  }
+
+
+  audio.addEventListener(
+    "play",
+    function(){
+
+      setupVisualizer();
+
+      if(audioContext &&
+         audioContext.state === "suspended"){
+
+        audioContext.resume();
+
+      }
+
+    }
+  );
+
+
+  window.addEventListener(
+    "resize",
+    resizeCanvas
+  );
+
+
+  resizeCanvas();
+
+})();
+</script>
 </body>
 </html>
