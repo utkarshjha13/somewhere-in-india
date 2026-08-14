@@ -978,6 +978,32 @@ loadTrack(0,false);
     height:20px;
   }
 }
+/* ===== PLAYER POSITION ONLY ===== */
+
+.player{
+  position:absolute !important;
+  top:auto !important;
+  bottom:4vh !important;
+  right:5vw !important;
+  width:min(56vw, 880px) !important;
+  height:auto !important;
+  z-index:20 !important;
+}
+
+/* MOBILE PORTRAIT */
+@media (max-width:600px) and (orientation:portrait){
+  .player{
+    position:absolute !important;
+    top:auto !important;
+    bottom:22px !important;
+    right:23px !important;
+    width:calc(100vw - 46px) !important;
+    max-width:none !important;
+    min-width:0 !important;
+    height:auto !important;
+    z-index:20 !important;
+  }
+}
 </style>
 
 
