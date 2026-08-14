@@ -1011,7 +1011,25 @@ loadTrack(0,false);
         z-index: 20 !important;
     }
 }
- 
+/* ===== FINAL PLAYER LIFT FIX ===== */
+
+.player{
+    transform:translateY(-60px) !important;
+}
+
+/* MOBILE PORTRAIT */
+@media (max-width:600px) and (orientation:portrait){
+    .player{
+        transform:translateY(-60px) !important;
+    }
+}
+
+/* PHONE LANDSCAPE */
+@media (max-width:800px) and (orientation:landscape){
+    .player{
+        transform:translateY(-60px) !important;
+    }
+}
 </style>
 
 
