@@ -651,6 +651,58 @@ h1{margin:0;font-size:clamp(55px,6vw,92px);line-height:.96;letter-spacing:-3px;f
     top:46% !important;
   }
 }
+ /* ===== TEXT + PLAYER SPACING FIX ===== */
+
+/* Text section ko player se thoda breathing space */
+.story{
+  padding-bottom:32px !important;
+}
+
+/* INDIA / NIGHT */
+.story .tag{
+  color:rgba(255,255,255,.92) !important;
+  font-size:14px !important;
+  letter-spacing:3px !important;
+  text-shadow:0 2px 7px rgba(0,0,0,.75) !important;
+}
+
+/* Rain after dark */
+.story h2{
+  color:#ffffff !important;
+  font-size:22px !important;
+  text-shadow:0 2px 8px rgba(0,0,0,.8) !important;
+  margin-top:10px !important;
+}
+
+
+/* ===== MOBILE PORTRAIT ONLY ===== */
+
+@media (max-width:600px) and (orientation:portrait){
+
+  /* Mobile par text readable rahe */
+  .story{
+    padding-bottom:24px !important;
+  }
+
+  .story .tag{
+    font-size:12px !important;
+    letter-spacing:2px !important;
+    color:rgba(255,255,255,.95) !important;
+    text-shadow:0 2px 7px rgba(0,0,0,.85) !important;
+  }
+
+  .story h2{
+    font-size:19px !important;
+    color:#fff !important;
+    margin-top:8px !important;
+    text-shadow:0 2px 8px rgba(0,0,0,.85) !important;
+  }
+
+  /* Player ko mobile screen ke bottom se thoda upar */
+  .player{
+    bottom:18px !important;
+  }
+}
 </style>
 
 </head>
