@@ -1040,41 +1040,7 @@ loadTrack(0,false);
     z-index:100 !important;
     display:block !important;
     white-space:nowrap !important;
-}
-
-/* Keep previous / next controls available */
-.prev,
-.next{
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-}
-
-/* PORTRAIT ONLY — bring controls back without changing player */
-@media (max-width:600px) and (orientation:portrait){
-
-    .prev,
-    .next{
-        display:flex !important;
-        width:40px !important;
-        height:40px !important;
-        flex:0 0 40px !important;
-    }
-
-    /* Do NOT change player position or size */
-    .player{
-        transform:translateY(-60px) !important;
-    }
-}
-
-/* LANDSCAPE — controls stay exactly as they already are */
-@media (max-width:800px) and (orientation:landscape){
-
-    .prev,
-    .next{
-        display:flex !important;
-    }
-}
+ }
 </style>
 
 
