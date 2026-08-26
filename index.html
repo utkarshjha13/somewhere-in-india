@@ -823,7 +823,7 @@ document.querySelector(".disc").style.setProperty("--c2", c[1]);
 document.querySelector(".disc").style.setProperty("--c3", c[2]);
 document.querySelector(".disc").style.setProperty("--glow", c[3]);
   audio.pause();
-  audio.src = track.file + "?v=3";
+  audio.src = new URL(track.file, document.baseURI).href + "?v=" + Date.now();
   audio.load();
   progress.value=0;
   currentTimeEl.textContent="00:00";
