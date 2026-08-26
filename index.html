@@ -816,7 +816,7 @@ function loadTrack(i, autoplay=false){
   ["#f72585", "#b5179e", "#7209b7", "rgba(247,37,133,.35)"]
 ];
 
-const c = colors[trackIndex];
+const c = colors[trackIndex % colors.length];
 
 document.querySelector(".disc").style.setProperty("--c1", c[0]);
 document.querySelector(".disc").style.setProperty("--c2", c[1]);
