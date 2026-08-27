@@ -780,6 +780,10 @@ const playlist = [
 ];
 
 const audio = document.getElementById("audio");
+const rainAudio = document.getElementById("rainAudio");
+
+rainAudio.loop = true;
+rainAudio.volume = 0.18;
 const playBtn = document.getElementById("play");
 const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
@@ -1357,6 +1361,8 @@ transform-origin:center;
     "play",
     function(){
 
+     rainAudio.pause();
+
       setupVisualizer();
 
       if(audioContext &&
@@ -1368,6 +1374,9 @@ transform-origin:center;
 
     }
   );
+ audio.addEventListener("pause", function(){
+    rainAudio.play().catch(function(){});
+});
 
 
   window.addEventListener(
